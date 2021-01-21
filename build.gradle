@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'org.hoegl'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation("org.assertj:assertj-core:3.18.1")
+    compile([
+            'com.arangodb:arangodb-java-driver:6.8.0'
+    ])
+}
+
+test {
+    useJUnitPlatform()
+}
