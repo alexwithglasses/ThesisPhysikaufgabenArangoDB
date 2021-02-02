@@ -1,3 +1,5 @@
+package modelPhysikaufgabe;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,9 +7,9 @@ import java.util.List;
 public class Aufgabenstellung {
 
     private String aufgabenstellungText;
-    private ArrayList<GegebenerParameter> gegebeneParameterList;
+    private ArrayList<AufgabenParameter> gegebeneParameterList;
 
-    public Aufgabenstellung(String aufgabenstellungText, ArrayList<GegebenerParameter> gegebeneParameterList){
+    public Aufgabenstellung(String aufgabenstellungText, ArrayList<AufgabenParameter> gegebeneParameterList){
         this.aufgabenstellungText = aufgabenstellungText;
         this.gegebeneParameterList = gegebeneParameterList;
     }
@@ -15,7 +17,7 @@ public class Aufgabenstellung {
     @Override
     public String toString() {
         ArrayList<String> parameterAlsStrings = new ArrayList<>();
-        for(GegebenerParameter parameter : gegebeneParameterList){
+        for(AufgabenParameter parameter : gegebeneParameterList){
             parameterAlsStrings.add(parameter.toString());
         }
 
@@ -30,11 +32,11 @@ public class Aufgabenstellung {
         this.aufgabenstellungText = aufgabenstellungText;
     }
 
-    public List<GegebenerParameter> getGegebeneParameterList() {
+    public List<AufgabenParameter> getGegebeneParameterList() {
         return gegebeneParameterList;
     }
 
-    public void setGegebeneParameterList(ArrayList<GegebenerParameter> gegebeneParameterList) {
+    public void setGegebeneParameterList(ArrayList<AufgabenParameter> gegebeneParameterList) {
         this.gegebeneParameterList = gegebeneParameterList;
     }
 

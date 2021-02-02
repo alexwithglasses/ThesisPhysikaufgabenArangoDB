@@ -1,5 +1,9 @@
+import modelPhysikaufgabe.Aufgabenstellung;
+import modelPhysikaufgabe.AufgabenParameter;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -10,11 +14,11 @@ public class AufgabenstellungSpec {
     @DisplayName("kann mit einer variabl langen Liste an gegebenen Parametern erstellt werden.")
     @Test
     void aufgabenstellungMitVariabelLangerParameterlisteErstellen(){
-        ArrayList<GegebenerParameter> parameterAufgabe1;
+        ArrayList<AufgabenParameter> parameterAufgabe1;
         parameterAufgabe1 = new ArrayList<>();
-        parameterAufgabe1.add(new GegebenerParameter("m1", "g", 50.0F, 150.0F));
-        parameterAufgabe1.add(new GegebenerParameter("t1", "min", 0F, 5F));
-        parameterAufgabe1.add(new GegebenerParameter("S1", "Schwingungen", 60.0F, 120.0F));
+        parameterAufgabe1.add(new AufgabenParameter("m1", "g", 50.0F, 150.0F));
+        parameterAufgabe1.add(new AufgabenParameter("t1", "min", 0F, 5F));
+        parameterAufgabe1.add(new AufgabenParameter("S1", "Schwingungen", 60.0F, 120.0F));
 
         Aufgabenstellung aufgabe1 = new Aufgabenstellung("Ein Federpendel mit der Masse {0} führt in {1} {2} aus.", parameterAufgabe1);
 

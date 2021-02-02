@@ -1,3 +1,6 @@
+package modelPhysikaufgabe;
+
+
 public class PhysikAufgabe {
 
     private Aufgabenstellung aufgabenstellung;

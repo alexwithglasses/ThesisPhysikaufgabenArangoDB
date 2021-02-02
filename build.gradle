@@ -14,7 +14,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation("org.assertj:assertj-core:3.18.1")
     compile([
-            'com.arangodb:arangodb-java-driver:6.8.0'
+            'com.arangodb:arangodb-java-driver:6.8.0',
+            'org.sharegov:mjson:1.4.0'
     ])
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

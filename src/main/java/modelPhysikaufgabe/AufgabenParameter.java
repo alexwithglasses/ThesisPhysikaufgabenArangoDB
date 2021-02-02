@@ -1,20 +1,29 @@
+package modelPhysikaufgabe;
+
 import java.util.Random;
 
-public class GegebenerParameter {
+public class AufgabenParameter {
 
+    private String bezeichnungInFließtext;
     private String bezeichner;
     private String einheit;
     private float zahlenwert;
     private float untereSchrankeZahlenwert;
     private float obereSchrankeZahlenwert;
 
-    public GegebenerParameter(String bezeichner, String einheit, float zahlenwert){
+    public AufgabenParameter(String bezeichner, String bezeichnungInFließtext, String einheit){
+        this.einheit = einheit;
+        this.bezeichner = bezeichner;
+        this.bezeichnungInFließtext = bezeichnungInFließtext;
+    }
+
+    public AufgabenParameter(String bezeichner, String einheit, float zahlenwert){
         this.bezeichner = bezeichner;
         this.einheit = einheit;
         this.zahlenwert = zahlenwert;
     }
 
-    public GegebenerParameter(String bezeichner, String einheit, float untereSchrankeZahlenwert, float obereSchrankeZahlenwert){
+    public AufgabenParameter(String bezeichner, String einheit, float untereSchrankeZahlenwert, float obereSchrankeZahlenwert){
         this.bezeichner = bezeichner;
         this.einheit = einheit;
         this.untereSchrankeZahlenwert = untereSchrankeZahlenwert;
@@ -30,12 +39,14 @@ public class GegebenerParameter {
 
     @Override
     public String toString(){
-        return String.format("%.2f", zahlenwert) + " " + einheit;
+        return String.format("%.2f", zahlenwert) + einheit;
     }
 
     public float getZahlenwert() {
         return zahlenwert;
     }
+
+    public void setZahlenwert(float neuerZahlenwert){ this.zahlenwert = neuerZahlenwert;}
 
     public float getUntereSchrankeZahlenwert() {
         return untereSchrankeZahlenwert;
@@ -44,5 +55,7 @@ public class GegebenerParameter {
     public float getObereSchrankeZahlenwert() {
         return obereSchrankeZahlenwert;
     }
+
+    public String getBezeichnungInFließtext(){return bezeichnungInFließtext;}
 
 }
