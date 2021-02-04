@@ -1,3 +1,5 @@
+package modelPhysikaufgabenTests;
+
 import modelPhysikaufgabe.Aufgabenstellung;
 import modelPhysikaufgabe.AufgabenParameter;
 import modelPhysikaufgabe.PhysikAufgabe;
@@ -33,7 +35,7 @@ public class PhysikaufgabeSpec {
     @Test
     void aufgabeKannMitParametrisierterAufgabenstellungErstelltWerden(){
 
-        System.out.println("Test PhysikaufgabeSpec, Aufgabenstellung: ");
+        System.out.println("Test modelPhysikaufgabenTests.PhysikaufgabeSpec, Aufgabenstellung: ");
         System.out.println(aufgabe1.getAufgabenstellung().toString());
 
         assertThat(aufgabe1.getAufgabenstellung().toString()!=null).isTrue();

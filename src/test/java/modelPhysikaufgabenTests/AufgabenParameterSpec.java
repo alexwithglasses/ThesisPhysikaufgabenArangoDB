@@ -1,3 +1,5 @@
+package modelPhysikaufgabenTests;
+
 import modelPhysikaufgabe.AufgabenParameter;
 
 import org.junit.jupiter.api.DisplayName;

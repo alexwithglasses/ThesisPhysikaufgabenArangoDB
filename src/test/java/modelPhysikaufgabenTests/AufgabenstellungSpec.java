@@ -1,3 +1,5 @@
+package modelPhysikaufgabenTests;
+
 import modelPhysikaufgabe.Aufgabenstellung;
 import modelPhysikaufgabe.AufgabenParameter;
 
