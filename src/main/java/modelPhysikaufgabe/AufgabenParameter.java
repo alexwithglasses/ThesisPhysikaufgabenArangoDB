@@ -4,17 +4,16 @@ import java.util.Random;
 
 public class AufgabenParameter {
 
-    private String bezeichnungInFließtext;
-    private String bezeichner;
-    private String einheit;
+    private final String bezeichner;
+    private final String einheit;
     private float zahlenwert;
     private float untereSchrankeZahlenwert;
     private float obereSchrankeZahlenwert;
 
-    public AufgabenParameter(String bezeichner, String bezeichnungInFließtext, String einheit){
-        this.einheit = einheit;
+
+    public AufgabenParameter(String bezeichner, String einheit){
         this.bezeichner = bezeichner;
-        this.bezeichnungInFließtext = bezeichnungInFließtext;
+        this.einheit = einheit;
     }
 
     public AufgabenParameter(String bezeichner, String einheit, float zahlenwert){
@@ -46,8 +45,6 @@ public class AufgabenParameter {
         return zahlenwert;
     }
 
-    public void setZahlenwert(float neuerZahlenwert){ this.zahlenwert = neuerZahlenwert;}
-
     public float getUntereSchrankeZahlenwert() {
         return untereSchrankeZahlenwert;
     }
@@ -56,6 +53,6 @@ public class AufgabenParameter {
         return obereSchrankeZahlenwert;
     }
 
-    public String getBezeichnungInFließtext(){return bezeichnungInFließtext;}
+    public String getBezeichner(){ return bezeichner;}
 
 }

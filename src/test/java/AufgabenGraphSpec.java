@@ -1,25 +1,34 @@
-package modelPhysikaufgabenTests;
-
-import modelPhysikaufgabe.Aufgabenstellung;
+import com.arangodb.entity.VertexEntity;
+import databaseArangoDB.ArangoDBSetup;
+import databaseArangoDB.AufgabenGraph;
 import modelPhysikaufgabe.AufgabenParameter;
+import modelPhysikaufgabe.Aufgabenstellung;
 import modelPhysikaufgabe.Fragestellung;
 import modelPhysikaufgabe.PhysikAufgabe;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.assertThat;
+@DisplayName("Der Graph \"Aufgaben\" ")
+public class AufgabenGraphSpec {
 
-@DisplayName("Eine Physikaufgabe ")
-public class PhysikaufgabeSpec {
 
     private ArrayList<AufgabenParameter> parameterAufgabe1;
     private Aufgabenstellung aufgabenstellungAufgabe1;
     private Fragestellung frageA;
     private Fragestellung frageB;
     private PhysikAufgabe aufgabe1;
+    private ArangoDBSetup arangoConnection;
+    private AufgabenGraph aufgabenGraph;
+
+    @BeforeAll
+    void connectToArango(){
+        arangoConnection = new ArangoDBSetup();
+        aufgabenGraph = new AufgabenGraph();
+    }
 
     @BeforeEach
     void init(){
@@ -35,29 +44,17 @@ public class PhysikaufgabeSpec {
 
 
         aufgabe1 = new PhysikAufgabe(aufgabenstellungAufgabe1, frageA, frageB);
+
     }
 
-
-    @DisplayName("kann beim Erstellen eine Aufgabenstellung mit veränderlichen Parametern enthalten.")
+    @DisplayName("kann einen Knoten der Collection \"Aufgabenstellungen\" enthalten.")
     @Test
-    void aufgabeKannMitParametrisierterAufgabenstellungErstelltWerden(){
+    void erstelleKnotenInCollectionAufgabenstellungen(){
 
-        assertThat(aufgabe1.getAufgabenstellung().toString()!=null).isTrue();
-        assertThat(parameterAufgabe1.get(0).getZahlenwert()).isBetween(50.0F, 150.0F);
-        assertThat(parameterAufgabe1.get(1).getZahlenwert()).isBetween(1F, 5F);
-        assertThat(parameterAufgabe1.get(2).getZahlenwert()).isBetween(60.0F, 120.0F);
-    }
+        //VertexEntity aufgabenstellung1 = new erstelleAufgabenstellungKnoten(aufgabenstellungAufgabe1);
 
-    @DisplayName("kann beim Erstellen eine Aufgabenstellung mit veränderlichen Parametern und eine Fragestellung enthalten.")
-    @Test
-    void aufgabeKannMitParametrisierterAufgabenstellungUndFragestellungErstelltWerden(){
-
-        assertThat(aufgabe1.getAufgabenstellung().toString()!=null).isTrue();
-
-        assertThat(aufgabe1.getFragestellungList().get(0).toString()).isEqualTo("a) Bestimmen Sie die Frequenz f1 der Schwingung.");
-        assertThat(aufgabe1.getFragestellungList().get(1).toString()).isEqualTo("b) Bestimmen Sie die Federkonstane D1 der Schwingung.");
-    }
 
 
     }
 
+}

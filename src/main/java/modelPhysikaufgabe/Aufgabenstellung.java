@@ -8,6 +8,7 @@ public class Aufgabenstellung {
 
     private String aufgabenstellungText;
     private ArrayList<AufgabenParameter> gegebeneParameterList;
+    private String fachbereich;
 
     public Aufgabenstellung(String aufgabenstellungText, ArrayList<AufgabenParameter> gegebeneParameterList){
         this.aufgabenstellungText = aufgabenstellungText;

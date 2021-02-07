@@ -8,6 +8,7 @@ public class Fragestellung {
 
     private String fragestellungText;
     private List<AufgabenParameter> gesuchteParameterList;
+    private String fachbereich;
 
     public Fragestellung(String fragestellungText, AufgabenParameter gesuchterParameter){
         this.fragestellungText = fragestellungText;
@@ -19,7 +20,7 @@ public class Fragestellung {
     public String toString() {
         ArrayList<String> parameterAlsStrings = new ArrayList<>();
         for(AufgabenParameter parameter : gesuchteParameterList){
-            parameterAlsStrings.add(parameter.getBezeichnungInFließtext());
+            parameterAlsStrings.add(parameter.getBezeichner());
         }
 
         return MessageFormat.format(fragestellungText, parameterAlsStrings.toArray());
