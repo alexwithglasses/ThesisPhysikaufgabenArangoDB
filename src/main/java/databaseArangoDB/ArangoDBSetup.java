@@ -14,8 +14,8 @@ public class ArangoDBSetup {
     private final String ARANGO_PASSWORD = "arango";
     private final String DB_NAME = "physikaufgaben";
     private static final String GRAPH_NAME = "aufgaben";
-    private static final String[] KNOTEN_COLLECTIONS = {"Aufgabenstellungen", "Einheiten"};
-    private static final String[] KANTEN_COLLECTIONS = {"Fragestellungen", "GegebeneParameter"};
+    private static final String[] KNOTEN_COLLECTIONS = {"Aufgabenstellungen", "Parameter", "Fragestellungen"};
+    private static final String[] KANTEN_COLLECTIONS = {"GesuchteParameter", "GegebeneParameter", "HatFragestellung"};
 
     private ArangoDB arangoDBInstanz;
     private ArangoDatabase databaseHandler;
@@ -27,6 +27,15 @@ public class ArangoDBSetup {
                 .password(ARANGO_PASSWORD)
                 .build();
 
+        setupDatabaseAndCollectionsIfNeeded();
+
+        if(!databaseHandler.graph(GRAPH_NAME).exists()){
+            createGraph();
+        }
+
+    }
+
+    private void setupDatabaseAndCollectionsIfNeeded(){
         if (!arangoDBInstanz.db(DB_NAME).exists()){
             arangoDBInstanz.createDatabase(DB_NAME);
         }
@@ -34,26 +43,27 @@ public class ArangoDBSetup {
         databaseHandler = arangoDBInstanz.db(DB_NAME);
 
         for (String collectionName: KNOTEN_COLLECTIONS
-             ) {
+        ) {
             if (!databaseHandler.collection(collectionName).exists()){
                 databaseHandler.createCollection(collectionName);
             }
         }
+    }
 
-        if(!databaseHandler.graph(GRAPH_NAME).exists()){
+    private  void createGraph(){
+        Collection<EdgeDefinition> kantenDefinition = new ArrayList<>();
+        EdgeDefinition kantenGesuchterParamter = new EdgeDefinition().collection(KANTEN_COLLECTIONS[0]).from(KNOTEN_COLLECTIONS[2]).to(KNOTEN_COLLECTIONS[1]);
+        EdgeDefinition kantenGegebeneParameter = new EdgeDefinition().collection(KANTEN_COLLECTIONS[1]).from(KNOTEN_COLLECTIONS[0]).to(KNOTEN_COLLECTIONS[1]);
+        EdgeDefinition kantenHatFragestellung = new EdgeDefinition().collection(KANTEN_COLLECTIONS[2]).from(KNOTEN_COLLECTIONS[0]).to(KNOTEN_COLLECTIONS[2]);
 
-            Collection<EdgeDefinition> kantenDefinition = new ArrayList<>();
-            EdgeDefinition kantenFragestellungen = new EdgeDefinition().collection(KANTEN_COLLECTIONS[0]).from(KNOTEN_COLLECTIONS[0]).to(KNOTEN_COLLECTIONS[1]);
-            EdgeDefinition kantenGegebeneParameter = new EdgeDefinition().collection(KANTEN_COLLECTIONS[1]).from(KNOTEN_COLLECTIONS[0]).to(KNOTEN_COLLECTIONS[1]);
+        kantenDefinition.add(kantenGesuchterParamter);
+        kantenDefinition.add(kantenGegebeneParameter);
+        kantenDefinition.add(kantenHatFragestellung);
 
-            kantenDefinition.add(kantenFragestellungen);
-            kantenDefinition.add(kantenGegebeneParameter);
-
-            databaseHandler.createGraph(GRAPH_NAME, kantenDefinition);
-            databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[0]);
-            databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[1]);
-        }
-
+        databaseHandler.createGraph(GRAPH_NAME, kantenDefinition);
+        databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[0]);
+        databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[1]);
+        databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[2]);
     }
 
     public ArangoDB getArangoDBInstanz() {
