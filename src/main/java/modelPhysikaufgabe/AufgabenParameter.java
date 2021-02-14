@@ -38,7 +38,7 @@ public class AufgabenParameter {
 
     @Override
     public String toString(){
-        return String.format("%.2f", zahlenwert) + einheit;
+        return String.format("%.2f", zahlenwert) + " " + einheit;
     }
 
     public float getZahlenwert() {

@@ -1,14 +1,20 @@
 package databaseArangoDBTests;
 
 import com.arangodb.ArangoCursor;
+import com.arangodb.entity.BaseDocument;
 import databaseArangoDB.ArangoDBSetup;
+import databaseArangoDB.AufgabeArangoDB;
 import databaseArangoDB.GraphEntitiesUtility;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class AufgabeArangoDBSpec {
 
@@ -134,7 +140,7 @@ public class AufgabeArangoDBSpec {
     }
 
     @Test
-    void erhalteFragestellungenAnhandDerAufgabenstellungMitEingesetztemParameter(){
+    void erhalteFragestellungenOhneParameter(){
         ArangoCursor<String> query = physikaufgabenSetup.getDatabaseHandler().query(
                 "FOR v, e IN 1..1 OUTBOUND 'Aufgabenstellungen/A1' HatFragestellung RETURN v.text",
                 null, null, String.class
@@ -143,12 +149,44 @@ public class AufgabeArangoDBSpec {
         assertThat(query.asListRemaining(), hasItems("a) Bestimmen Sie die Frequenz {0} der Schwingung.","b) Bestimmen Sie die Federkonstane {0} der Schwingung."));
     }
 
+    @Test
+    void erhalteFragestellungenMitParameterAlsString(){
+
+              ArrayList<String> fragen =  AufgabeArangoDB.getFragestellungenAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
+
+              assertThat(fragen, hasItems("a) Bestimmen Sie die Frequenz f der Schwingung.", "b) Bestimmen Sie die Federkonstane D der Schwingung."));
+
+
+    }
+
+    @Test
+    void erhalteAufgabenstellungMitParameterAlsString(){
+
+        String aufgabenstellung = AufgabeArangoDB.getAufgabenstellungAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
+
+        System.out.println(aufgabenstellung);
+
+        assertThat(aufgabenstellung, notNullValue());
+
+    }
+
+    @Test
+    void erhalteKompletteAufgabeAlsString(){
+
+        String aufgabe = AufgabeArangoDB.getAufgabeAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
+
+        System.out.println(aufgabe);
+
+        assertThat(aufgabe, notNullValue());
+
+    }
+
 
 
 
     @AfterAll
     public static void teardown(){
-/*
+
         physikaufgabenSetup.getDatabaseHandler().collection("Aufgabenstellungen").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("Parameter").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("GegebeneParameter").drop();
@@ -158,8 +196,6 @@ public class AufgabeArangoDBSpec {
 
         physikaufgabenSetup.getGraph().drop();
 
-
- */
         physikaufgabenSetup.getArangoDBInstanz().shutdown();
     }
 }

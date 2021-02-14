@@ -35,6 +35,8 @@ public class PhysikaufgabeSpec {
 
 
         aufgabe1 = new PhysikAufgabe(aufgabenstellungAufgabe1, frageA, frageB);
+
+        System.out.println(aufgabe1.toString());
     }
 
 

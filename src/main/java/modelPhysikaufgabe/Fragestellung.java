@@ -10,6 +10,11 @@ public class Fragestellung {
     private List<AufgabenParameter> gesuchteParameterList;
     private String fachbereich;
 
+    public Fragestellung(String fragestellungText, List<AufgabenParameter> gesuchterParameter){
+        this.fragestellungText = fragestellungText;
+        this.gesuchteParameterList = gesuchterParameter;
+    }
+
     public Fragestellung(String fragestellungText, AufgabenParameter gesuchterParameter){
         this.fragestellungText = fragestellungText;
         gesuchteParameterList = new ArrayList<>();

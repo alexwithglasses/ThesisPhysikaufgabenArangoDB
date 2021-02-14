@@ -25,12 +25,12 @@ public class PhysikAufgabe {
         StringBuilder aufgabenstellungFragestellungString = new StringBuilder();
 
         aufgabenstellungFragestellungString.append(aufgabenstellung.toString());
-        aufgabenstellungFragestellungString.append(System.getProperty("line.seperator"));
+        aufgabenstellungFragestellungString.append(System.lineSeparator());
 
         for (Fragestellung fragestellung: fragestellungList
              ) {
             aufgabenstellungFragestellungString.append(fragestellung.toString());
-            aufgabenstellungFragestellungString.append(System.getProperty("line.seperator"));
+            aufgabenstellungFragestellungString.append(System.lineSeparator());
         }
 
         return aufgabenstellungFragestellungString.toString();
