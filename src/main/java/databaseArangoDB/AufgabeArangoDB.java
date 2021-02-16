@@ -55,8 +55,6 @@ public class AufgabeArangoDB {
 
         BaseDocument aufgabenstellungDoc = physikaufgabenSetup.getDatabaseHandler().getDocument(handleAufgabe, BaseDocument.class);
 
-        String aufgabenstellungOhneParameter = (String) aufgabenstellungDoc.getAttribute("text");
-
         Map<String, Object> queryGegebeneParameterBindVars = new MapBuilder().put("aufgabe", handleAufgabe).get();
 
         ArangoCursor<BaseDocument> queryGegebeneParameter = physikaufgabenSetup.getDatabaseHandler().query(
@@ -70,6 +68,8 @@ public class AufgabeArangoDB {
         ) {
 
             AufgabenParameter parameter = new AufgabenParameter(
+                    (String) gegebenerParameter.getAttribute("formelsymbol"),
+                    (String) gegebenerParameter.getAttribute("bezeichnung"),
                     (String) gegebenerParameter.getAttribute("bezeichnungParameter"),
                     (String) gegebenerParameter.getAttribute("einheit"),
                     new Float((Double) gegebenerParameter.getAttribute("untereSchrankeWertebereich")),
@@ -80,7 +80,12 @@ public class AufgabeArangoDB {
 
         }
 
-        Aufgabenstellung aufgabenstellung = new Aufgabenstellung(aufgabenstellungOhneParameter, gegebeneParameterList);
+        Aufgabenstellung aufgabenstellung = new Aufgabenstellung(
+                aufgabenstellungDoc.getKey(),
+                (String) aufgabenstellungDoc.getAttribute("text"),
+                gegebeneParameterList,
+                (String) aufgabenstellungDoc.getAttribute("fachbereich")
+        );
 
         return aufgabenstellung;
     }
@@ -113,12 +118,20 @@ public class AufgabeArangoDB {
             for (BaseDocument parameterDoc: parameter
             ) {
                 gesuchteParameter.add(new AufgabenParameter(
-                        (String) parameterDoc.getAttribute("bezeichnungParameter"),
+                        (String) parameterDoc.getAttribute("formelsymbol"),
                         (String) parameterDoc.getAttribute("einheit")
                 ));
             }
 
-            returnFragestellungen.add(new Fragestellung((String) frageDoc.getAttribute("text"), gesuchteParameter));
+            returnFragestellungen.add(new Fragestellung(
+                    (String) frageDoc.getKey(),
+                    (String) frageDoc.getAttribute("text"),
+                    gesuchteParameter,
+                    (String) frageDoc.getAttribute("fachbereich")
+                    )
+            );
+
+
 
         }
 

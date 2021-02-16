@@ -22,7 +22,7 @@ public class AufgabenParameterSpec {
     @DisplayName("kann ohne einen gegebenen Wert, aber mit einem Werteintervall erstellt werden.")
     @Test
     void erstellenEinesParametersOhneGegebenemWertMitWerteintervall(){
-        AufgabenParameter masse2 = new AufgabenParameter("m2", "g", 50.0F, 150.0F);
+        AufgabenParameter masse2 = new AufgabenParameter("m2","Masse","m", "g", 50.0F, 150.0F);
         assertThat(masse2.getUntereSchrankeZahlenwert()).isEqualTo(new Float(50));
         assertThat(masse2.getObereSchrankeZahlenwert()).isEqualTo(new Float(150));
     }
@@ -30,7 +30,7 @@ public class AufgabenParameterSpec {
     @DisplayName("kann ohne einen gegebenen Wert erstellt werden und mit einem zufaellig erstelltem Wert innerhalb des Intervalls bestueckt werden.")
     @Test
     void generierenEinesZahlenwertesInnerhalbDesWerteintervalls(){
-        AufgabenParameter masse2 = new AufgabenParameter("m2", "g", 50.0F, 150.0F);
+        AufgabenParameter masse2 = new AufgabenParameter("m2","Masse", "m", "g", 50.0F, 150.0F);
         masse2.generiereZahlenwert();
         assertThat(masse2.getZahlenwert()).isBetween(50.0F, 150.0F);
     }

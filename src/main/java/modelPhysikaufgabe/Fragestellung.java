@@ -6,13 +6,16 @@ import java.util.List;
 
 public class Fragestellung {
 
+    private String id;
     private String fragestellungText;
     private List<AufgabenParameter> gesuchteParameterList;
     private String fachbereich;
 
-    public Fragestellung(String fragestellungText, List<AufgabenParameter> gesuchterParameter){
+    public Fragestellung(String id, String fragestellungText, List<AufgabenParameter> gesuchterParameter, String fachbereich){
+        this.id = id;
         this.fragestellungText = fragestellungText;
         this.gesuchteParameterList = gesuchterParameter;
+        this.fachbereich = fachbereich;
     }
 
     public Fragestellung(String fragestellungText, AufgabenParameter gesuchterParameter){
@@ -29,6 +32,38 @@ public class Fragestellung {
         }
 
         return MessageFormat.format(fragestellungText, parameterAlsStrings.toArray());
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFragestellungText() {
+        return fragestellungText;
+    }
+
+    public void setFragestellungText(String fragestellungText) {
+        this.fragestellungText = fragestellungText;
+    }
+
+    public List<AufgabenParameter> getGesuchteParameterList() {
+        return gesuchteParameterList;
+    }
+
+    public void setGesuchteParameterList(List<AufgabenParameter> gesuchteParameterList) {
+        this.gesuchteParameterList = gesuchteParameterList;
+    }
+
+    public String getFachbereich() {
+        return fachbereich;
+    }
+
+    public void setFachbereich(String fachbereich) {
+        this.fachbereich = fachbereich;
     }
 
     public String getFragestellungTest() {

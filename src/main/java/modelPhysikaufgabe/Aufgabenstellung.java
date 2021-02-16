@@ -7,12 +7,16 @@ import java.util.List;
 public class Aufgabenstellung {
 
     private String aufgabenstellungText;
-    private ArrayList<AufgabenParameter> gegebeneParameterList;
+    private String id;
+    private List<AufgabenParameter> gegebeneParameterList;
     private String fachbereich;
 
-    public Aufgabenstellung(String aufgabenstellungText, ArrayList<AufgabenParameter> gegebeneParameterList){
+    public Aufgabenstellung(String id,String aufgabenstellungText, List<AufgabenParameter> gegebeneParameterList, String fachbereich){
+
+        this.id = id;
         this.aufgabenstellungText = aufgabenstellungText;
         this.gegebeneParameterList = gegebeneParameterList;
+        this.fachbereich = fachbereich;
     }
 
     @Override
@@ -41,4 +45,19 @@ public class Aufgabenstellung {
         this.gegebeneParameterList = gegebeneParameterList;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFachbereich() {
+        return fachbereich;
+    }
+
+    public void setFachbereich(String fachbereich) {
+        this.fachbereich = fachbereich;
+    }
 }

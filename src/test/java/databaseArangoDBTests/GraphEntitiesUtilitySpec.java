@@ -1,15 +1,16 @@
 package databaseArangoDBTests;
 
 import com.arangodb.ArangoCursor;
-import com.arangodb.entity.BaseEdgeDocument;
 import databaseArangoDB.GraphEntitiesUtility;
 import databaseArangoDB.ArangoDBSetup;
 import modelPhysikaufgabe.AufgabenParameter;
+import modelPhysikaufgabe.Aufgabenstellung;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,59 +26,56 @@ public class GraphEntitiesUtilitySpec {
     static void init(){
         physikaufgabenSetup = new ArangoDBSetup();
 
+        List<AufgabenParameter> parameterAufgabe1List =  Arrays.asList(
+                new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F),
+                new AufgabenParameter("t1", "Zeit","t", "min", 1, 5),
+                new AufgabenParameter("","Schwingungen","Schwingungen", "", 50, 150)
+        );
+
         String aufgabenstellung1 = GraphEntitiesUtility.erstelleKnotenAufgabenstellung(
                 physikaufgabenSetup.getDatabaseHandler().collection("Aufgabenstellungen"),
-                "A1",
-                "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.",
-                "Mechanik"
+                new Aufgabenstellung(
+                        "A1",
+                        "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.",
+                        parameterAufgabe1List,
+                        "Mechanik"
+                )
         );
 
         String parameterMasse = GraphEntitiesUtility.erstelleKnotenParameter(
             physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "m",
-                "Masse"
+            parameterAufgabe1List.get(0)
         );
 
         String parameterZeit = GraphEntitiesUtility.erstelleKnotenParameter(
                 physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "t",
-                "Zeit"
+                parameterAufgabe1List.get(1)
         );
 
         String parameterSchwingungen = GraphEntitiesUtility.erstelleKnotenParameter(
                 physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "Schwingungen",
-                "Schwingungen"
+                parameterAufgabe1List.get(2)
         );
 
         GraphEntitiesUtility.erstelleKanteParameter(
                 physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GegebeneParameter"),
                 aufgabenstellung1,
                 parameterMasse,
-                50,
-                150,
-                "g",
-                "Gramm"
+                parameterAufgabe1List.get(0)
         );
 
         GraphEntitiesUtility.erstelleKanteParameter(
                 physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GegebeneParameter"),
                 aufgabenstellung1,
                 parameterZeit,
-                1,
-                5,
-                "min",
-                "Minuten"
+                parameterAufgabe1List.get(1)
         );
 
         GraphEntitiesUtility.erstelleKanteParameter(
                 physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GegebeneParameter"),
                 aufgabenstellung1,
                 parameterSchwingungen,
-                50,
-                150,
-                "Schwingungen",
-                "Schwingungen"
+                parameterAufgabe1List.get(2)
         );
     }
 
@@ -107,11 +105,11 @@ public class GraphEntitiesUtilitySpec {
     void attributeEinerKanteWerdenAusgelesen(){
 
         ArangoCursor<String> query = physikaufgabenSetup.getDatabaseHandler().query(
-                "FOR vertex, edge IN  OUTBOUND 'Aufgabenstellungen/A1' GRAPH 'aufgaben' return edge.bezeichnungParameter",
+                "FOR vertex, edge IN  OUTBOUND 'Aufgabenstellungen/A1' GRAPH 'aufgaben' return edge.formelsymbol",
                 null, null, String.class
         );
 
-        assertThat(query.asListRemaining(), hasItems("Gramm", "Minuten", "Schwingungen"));
+        assertThat(query.asListRemaining(), hasItems("m1", "t1", ""));
 
         }
 

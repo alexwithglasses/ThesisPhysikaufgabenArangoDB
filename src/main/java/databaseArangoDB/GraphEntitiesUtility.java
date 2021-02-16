@@ -4,7 +4,14 @@ import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoEdgeCollection;
 import com.arangodb.entity.BaseDocument;
 import com.arangodb.entity.BaseEdgeDocument;
-import com.arangodb.entity.DocumentCreateEntity;
+import modelPhysikaufgabe.AufgabenParameter;
+import modelPhysikaufgabe.Aufgabenstellung;
+import modelPhysikaufgabe.Fragestellung;
+import modelPhysikaufgabe.PhysikAufgabe;
+
+import static databaseArangoDB.ArangoDBSetup.KANTEN_COLLECTIONS;
+import static databaseArangoDB.ArangoDBSetup.KNOTEN_COLLECTIONS;
+
 
 public class GraphEntitiesUtility {
 
@@ -20,80 +27,100 @@ public class GraphEntitiesUtility {
 
     }
 
+    public static String createAufgabe(PhysikAufgabe aufgabe, ArangoDBSetup arangoDBInstanz){
+
+        String idAufgabenstellung = erstelleKnotenAufgabenstellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[0]), aufgabe.getAufgabenstellung() );
+
+        for (AufgabenParameter parameter: aufgabe.getAufgabenstellung().getGegebeneParameterList()
+             ) {
+            String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
+            erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[1]), idAufgabenstellung, idParameter, parameter);
+        }
+
+        for (Fragestellung frage : aufgabe.getFragestellungList()
+             ) {
+            String idFragestellung = erstelleKnotenFragestellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[2]), frage);
+            erstelleKanteFragestellung(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[2]),idAufgabenstellung, idFragestellung);
+
+            for (AufgabenParameter parameter: frage.getGesuchteParameterList()
+                 ) {
+                String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
+                erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[0]), idFragestellung, idParameter, parameter);
+            }
+        }
+
+        return idAufgabenstellung;
+    }
+
 
     public static String erstelleKnotenAufgabenstellung(
-            ArangoCollection aufgabenstellung,
-            String key,
-            String aufgabenstellungText,
-            String fachbereich){
+            ArangoCollection aufgabenstellungCollection,
+            Aufgabenstellung aufgabenstellung
+    ){
 
-        if (!existiertKnoten(key, aufgabenstellung)) {
+        if (!existiertKnoten(aufgabenstellung.getId(), aufgabenstellungCollection)) {
 
             BaseDocument aufgabenstellungDocument = new BaseDocument();
-            aufgabenstellungDocument.setKey(key);
-            aufgabenstellungDocument.addAttribute("text", aufgabenstellungText);
-            aufgabenstellungDocument.addAttribute("fachbereich", fachbereich);
+            aufgabenstellungDocument.setKey(aufgabenstellung.getId());
+            aufgabenstellungDocument.addAttribute("text", aufgabenstellung.getAufgabenstellungText());
+            aufgabenstellungDocument.addAttribute("fachbereich", aufgabenstellung.getFachbereich());
 
-            aufgabenstellung.insertDocument(aufgabenstellungDocument);
+            aufgabenstellungCollection.insertDocument(aufgabenstellungDocument);
         }
-        return aufgabenstellung.name() + "/" + key;
+        return aufgabenstellungCollection.name() + "/" + aufgabenstellung.getId();
     }
 
     public static String erstelleKnotenFragestellung(
-            ArangoCollection fragestellung,
-            String key,
-            String fragestellungText,
-            String fachbereich){
+            ArangoCollection fragestellungCollection,
+            Fragestellung frage
+            ){
 
-        if(!existiertKnoten(key, fragestellung)) {
+        if(!existiertKnoten(frage.getId(), fragestellungCollection)) {
 
             BaseDocument aufgabenstellungDocument = new BaseDocument();
-            aufgabenstellungDocument.setKey(key);
-            aufgabenstellungDocument.addAttribute("text", fragestellungText);
-            aufgabenstellungDocument.addAttribute("fachbereich", fachbereich);
+            aufgabenstellungDocument.setKey(frage.getId());
+            aufgabenstellungDocument.addAttribute("text", frage.getFragestellungText());
+            aufgabenstellungDocument.addAttribute("fachbereich", frage.getFachbereich());
 
-            fragestellung.insertDocument(aufgabenstellungDocument);
+            fragestellungCollection.insertDocument(aufgabenstellungDocument);
         }
 
-        return fragestellung.name() + "/" + key;
+        return fragestellungCollection.name() + "/" + frage.getId();
     }
 
     public static String erstelleKnotenParameter(
-            ArangoCollection parameter,
-            String key,
-            String bezeichnung
+            ArangoCollection parameterCollection,
+            AufgabenParameter parameter
         ){
 
-        if (!existiertKnoten(key, parameter)) {
+        if (!existiertKnoten(parameter.getBezeichner(), parameterCollection)) {
             BaseDocument parameterDocument = new BaseDocument();
-            parameterDocument.setKey(key);
-            parameterDocument.addAttribute("bezeichnung", bezeichnung);
+            parameterDocument.setKey(parameter.getBezeichner());
+            parameterDocument.addAttribute("bezeichnung", parameter.getBezeichnung());
 
-            parameter.insertDocument(parameterDocument);
+            parameterCollection.insertDocument(parameterDocument);
         }
-        return parameter.name() + "/" + key;
+        return parameterCollection.name() + "/" + parameter.getBezeichner();
     }
 
     public static void erstelleKanteParameter(
-            ArangoEdgeCollection parameter,
+            ArangoEdgeCollection parameterCollection,
             String from,
             String to,
-            float untereSchrankeWertebereich,
-            float obereSchrankeWertebereich,
-            String einheit,
-            String bezeichnungParameter
+            AufgabenParameter parameter
     ){
+
         BaseEdgeDocument doc = new BaseEdgeDocument();
 
-        doc.addAttribute("untereSchrankeWertebereich" , untereSchrankeWertebereich);
-        doc.addAttribute("obereSchrankeWertebereich", obereSchrankeWertebereich);
-        doc.addAttribute("einheit", einheit);
-        doc.addAttribute("bezeichnungParameter", bezeichnungParameter);
+        doc.addAttribute("untereSchrankeWertebereich" , parameter.getUntereSchrankeZahlenwert());
+        doc.addAttribute("obereSchrankeWertebereich", parameter.getObereSchrankeZahlenwert());
+        doc.addAttribute("einheit", parameter.getEinheit());
+        doc.addAttribute("formelsymbol", parameter.getFormelsymbol());
 
         doc.setFrom(from);
         doc.setTo(to);
 
-        parameter.insertEdge(doc);
+        parameterCollection.insertEdge(doc);
     }
 
     public static void erstelleKanteFragestellung(

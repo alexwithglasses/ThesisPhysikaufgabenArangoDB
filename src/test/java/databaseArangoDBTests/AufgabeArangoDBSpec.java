@@ -5,11 +5,17 @@ import com.arangodb.entity.BaseDocument;
 import databaseArangoDB.ArangoDBSetup;
 import databaseArangoDB.AufgabeArangoDB;
 import databaseArangoDB.GraphEntitiesUtility;
+import modelPhysikaufgabe.AufgabenParameter;
+import modelPhysikaufgabe.Aufgabenstellung;
+import modelPhysikaufgabe.Fragestellung;
+import modelPhysikaufgabe.PhysikAufgabe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,119 +30,32 @@ public class AufgabeArangoDBSpec {
     static void init(){
         physikaufgabenSetup = new ArangoDBSetup();
 
-        String aufgabenstellung1 = GraphEntitiesUtility.erstelleKnotenAufgabenstellung(
-                physikaufgabenSetup.getDatabaseHandler().collection("Aufgabenstellungen"),
-                "A1",
-                "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.",
-                "Mechanik"
+        List<AufgabenParameter> parameterAufgabe1List = Arrays.asList(
+                new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F),
+                new AufgabenParameter("t1", "Zeit","t", "min", 1, 5),
+                new AufgabenParameter("","Schwingungen","Schwingungen", "Schwingungen", 50, 150)
         );
 
-        String parameterMasse = GraphEntitiesUtility.erstelleKnotenParameter(
-                physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "m",
-                "Masse"
-        );
-
-        String parameterZeit = GraphEntitiesUtility.erstelleKnotenParameter(
-                physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "t",
-                "Zeit"
-        );
-
-        String parameterSchwingungen = GraphEntitiesUtility.erstelleKnotenParameter(
-                physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "Schwingungen",
-                "Schwingungen"
-        );
-
-        GraphEntitiesUtility.erstelleKanteParameter(
-                physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GegebeneParameter"),
-                aufgabenstellung1,
-                parameterMasse,
-                50,
-                150,
-                "g",
-                "m"
-        );
-
-        GraphEntitiesUtility.erstelleKanteParameter(
-                physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GegebeneParameter"),
-                aufgabenstellung1,
-                parameterZeit,
-                1,
-                5,
-                "min",
-                "t"
-        );
-
-        GraphEntitiesUtility.erstelleKanteParameter(
-                physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GegebeneParameter"),
-                aufgabenstellung1,
-                parameterSchwingungen,
-                50,
-                150,
-                "Schwingungen",
-                "Schwingungen"
-        );
-
-        String fragestellungA1a = GraphEntitiesUtility.erstelleKnotenFragestellung(
-                physikaufgabenSetup.getDatabaseHandler().collection("Fragestellungen"),
-                "A1a",
-                "a) Bestimmen Sie die Frequenz {0} der Schwingung.",
-                "Mechanik"
-        );
-
-        String parameterFrequenz = GraphEntitiesUtility.erstelleKnotenParameter(
-                physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "f",
-                "Frequenz"
-        );
-
-        GraphEntitiesUtility.erstelleKanteParameter(
-                physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GesuchteParameter"),
-                fragestellungA1a,
-                parameterFrequenz,
-                0,
-                0,
-                "Hz",
-                "f"
-        );
-
-        GraphEntitiesUtility.erstelleKanteFragestellung(
-                physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("HatFragestellung"),
-                aufgabenstellung1,
-                fragestellungA1a
-        );
-
-        String fragestellungA1b = GraphEntitiesUtility.erstelleKnotenFragestellung(
-                physikaufgabenSetup.getDatabaseHandler().collection("Fragestellungen"),
-                "A1b",
-                "b) Bestimmen Sie die Federkonstane {0} der Schwingung.",
-                "Mechanik"
-        );
-
-        String parameterFederkonstante = GraphEntitiesUtility.erstelleKnotenParameter(
-                physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
-                "D",
-                "Federkonstante"
-        );
-
-        GraphEntitiesUtility.erstelleKanteParameter(
-                physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GesuchteParameter"),
-                fragestellungA1b,
-                parameterFederkonstante,
-                0,
-                0,
-                "N/m",
-                "D"
-        );
-
-        GraphEntitiesUtility.erstelleKanteFragestellung(
-                physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("HatFragestellung"),
-                aufgabenstellung1,
-                fragestellungA1b
+        PhysikAufgabe aufgabe = new PhysikAufgabe(
+                new Aufgabenstellung(
+                        "A1",
+                        "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.",
+                        parameterAufgabe1List,
+                        "Mechanik"
+                ),
+                new Fragestellung(
+                        "A1a",
+                        "a) Bestimmen Sie die Frequenz {0} und die Federkonstante {1} der Schwingung.",
+                        Arrays.asList(new AufgabenParameter("f1", "Frequenz", "f","Hz", 0,0),
+                                new AufgabenParameter("D1", "Federkonstante", "D", "N/m", 0,0)),
+                        "Mechanik"
+                )
 
         );
+
+        GraphEntitiesUtility.createAufgabe(aufgabe, physikaufgabenSetup);
+
+
     }
 
     @Test
@@ -146,7 +65,7 @@ public class AufgabeArangoDBSpec {
                 null, null, String.class
         );
 
-        assertThat(query.asListRemaining(), hasItems("a) Bestimmen Sie die Frequenz {0} der Schwingung.","b) Bestimmen Sie die Federkonstane {0} der Schwingung."));
+        assertThat(query.asListRemaining(), hasItems("a) Bestimmen Sie die Frequenz {0} und die Federkonstante {1} der Schwingung."));
     }
 
     @Test
@@ -154,7 +73,7 @@ public class AufgabeArangoDBSpec {
 
               ArrayList<String> fragen =  AufgabeArangoDB.getFragestellungenAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
 
-              assertThat(fragen, hasItems("a) Bestimmen Sie die Frequenz f der Schwingung.", "b) Bestimmen Sie die Federkonstane D der Schwingung."));
+              assertThat(fragen, hasItems("a) Bestimmen Sie die Frequenz f1 und die Federkonstante D1 der Schwingung."));
 
 
     }
@@ -187,6 +106,7 @@ public class AufgabeArangoDBSpec {
     @AfterAll
     public static void teardown(){
 
+
         physikaufgabenSetup.getDatabaseHandler().collection("Aufgabenstellungen").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("Parameter").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("GegebeneParameter").drop();
@@ -195,6 +115,10 @@ public class AufgabeArangoDBSpec {
         physikaufgabenSetup.getDatabaseHandler().collection("HatFragestellung").drop();
 
         physikaufgabenSetup.getGraph().drop();
+
+
+
+
 
         physikaufgabenSetup.getArangoDBInstanz().shutdown();
     }

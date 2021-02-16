@@ -15,8 +15,8 @@ public class ArangoDBSetup {
     private final String ARANGO_PASSWORD = "arango";
     private final String DB_NAME = "physikaufgaben";
     private static final String GRAPH_NAME = "aufgaben";
-    private static final String[] KNOTEN_COLLECTIONS = {"Aufgabenstellungen", "Parameter", "Fragestellungen"};
-    private static final String[] KANTEN_COLLECTIONS = {"GesuchteParameter", "GegebeneParameter", "HatFragestellung"};
+    public static final String[] KNOTEN_COLLECTIONS = {"Aufgabenstellungen", "Parameter", "Fragestellungen"};
+    public static final String[] KANTEN_COLLECTIONS = {"GesuchteParameter", "GegebeneParameter", "HatFragestellung"};
 
     private ArangoDB arangoDBInstanz;
     private ArangoDatabase databaseHandler;
