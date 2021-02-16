@@ -29,25 +29,25 @@ public class AufgabeArangoDBSpec {
                 "A1",
                 "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.",
                 "Mechanik"
-        ).getId();
+        );
 
         String parameterMasse = GraphEntitiesUtility.erstelleKnotenParameter(
                 physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
                 "m",
                 "Masse"
-        ).getId();
+        );
 
         String parameterZeit = GraphEntitiesUtility.erstelleKnotenParameter(
                 physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
                 "t",
                 "Zeit"
-        ).getId();
+        );
 
         String parameterSchwingungen = GraphEntitiesUtility.erstelleKnotenParameter(
                 physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
                 "Schwingungen",
                 "Schwingungen"
-        ).getId();
+        );
 
         GraphEntitiesUtility.erstelleKanteParameter(
                 physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GegebeneParameter"),
@@ -84,13 +84,13 @@ public class AufgabeArangoDBSpec {
                 "A1a",
                 "a) Bestimmen Sie die Frequenz {0} der Schwingung.",
                 "Mechanik"
-        ).getId();
+        );
 
         String parameterFrequenz = GraphEntitiesUtility.erstelleKnotenParameter(
                 physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
                 "f",
                 "Frequenz"
-        ).getId();
+        );
 
         GraphEntitiesUtility.erstelleKanteParameter(
                 physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GesuchteParameter"),
@@ -113,13 +113,13 @@ public class AufgabeArangoDBSpec {
                 "A1b",
                 "b) Bestimmen Sie die Federkonstane {0} der Schwingung.",
                 "Mechanik"
-        ).getId();
+        );
 
         String parameterFederkonstante = GraphEntitiesUtility.erstelleKnotenParameter(
                 physikaufgabenSetup.getDatabaseHandler().collection("Parameter"),
                 "D",
                 "Federkonstante"
-        ).getId();
+        );
 
         GraphEntitiesUtility.erstelleKanteParameter(
                 physikaufgabenSetup.getDatabaseHandler().graph("aufgaben").edgeCollection("GesuchteParameter"),
@@ -142,7 +142,7 @@ public class AufgabeArangoDBSpec {
     @Test
     void erhalteFragestellungenOhneParameter(){
         ArangoCursor<String> query = physikaufgabenSetup.getDatabaseHandler().query(
-                "FOR v, e IN 1..1 OUTBOUND 'Aufgabenstellungen/A1' HatFragestellung RETURN v.text",
+                "FOR v, e IN 1..1  OUTBOUND 'Aufgabenstellungen/A1' HatFragestellung RETURN v.text",
                 null, null, String.class
         );
 

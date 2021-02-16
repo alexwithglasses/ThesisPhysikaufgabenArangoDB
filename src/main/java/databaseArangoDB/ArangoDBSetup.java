@@ -3,6 +3,7 @@ package databaseArangoDB;
 import com.arangodb.ArangoDB;
 import com.arangodb.ArangoDatabase;
 import com.arangodb.ArangoGraph;
+import com.arangodb.Protocol;
 import com.arangodb.entity.EdgeDefinition;
 
 import java.util.ArrayList;
@@ -61,9 +62,9 @@ public class ArangoDBSetup {
         kantenDefinition.add(kantenHatFragestellung);
 
         databaseHandler.createGraph(GRAPH_NAME, kantenDefinition);
-        databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[0]);
-        databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[1]);
-        databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[2]);
+        //databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[0]);
+        //databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[1]);
+        //databaseHandler.graph(GRAPH_NAME).addVertexCollection(KNOTEN_COLLECTIONS[2]);
     }
 
     public ArangoDB getArangoDBInstanz() {

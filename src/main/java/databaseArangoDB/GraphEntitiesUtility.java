@@ -8,45 +8,70 @@ import com.arangodb.entity.DocumentCreateEntity;
 
 public class GraphEntitiesUtility {
 
-    public static DocumentCreateEntity<BaseDocument> erstelleKnotenAufgabenstellung(
+    public static boolean existiertKnoten(String knotenKey, ArangoCollection knotenCollection){
+
+        String knotenDocID = knotenCollection.getDocument(knotenKey, String.class);
+
+        if(knotenDocID != null){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+
+    public static String erstelleKnotenAufgabenstellung(
             ArangoCollection aufgabenstellung,
             String key,
             String aufgabenstellungText,
             String fachbereich){
 
-        BaseDocument aufgabenstellungDocument = new BaseDocument();
-        aufgabenstellungDocument.setKey(key);
-        aufgabenstellungDocument.addAttribute("text", aufgabenstellungText);
-        aufgabenstellungDocument.addAttribute("fachbereich", fachbereich);
+        if (!existiertKnoten(key, aufgabenstellung)) {
 
-        return aufgabenstellung.insertDocument(aufgabenstellungDocument);
+            BaseDocument aufgabenstellungDocument = new BaseDocument();
+            aufgabenstellungDocument.setKey(key);
+            aufgabenstellungDocument.addAttribute("text", aufgabenstellungText);
+            aufgabenstellungDocument.addAttribute("fachbereich", fachbereich);
+
+            aufgabenstellung.insertDocument(aufgabenstellungDocument);
+        }
+        return aufgabenstellung.name() + "/" + key;
     }
 
-    public static DocumentCreateEntity<BaseDocument> erstelleKnotenFragestellung(
+    public static String erstelleKnotenFragestellung(
             ArangoCollection fragestellung,
             String key,
             String fragestellungText,
             String fachbereich){
 
-        BaseDocument aufgabenstellungDocument = new BaseDocument();
-        aufgabenstellungDocument.setKey(key);
-        aufgabenstellungDocument.addAttribute("text", fragestellungText);
-        aufgabenstellungDocument.addAttribute("fachbereich", fachbereich);
+        if(!existiertKnoten(key, fragestellung)) {
 
-        return fragestellung.insertDocument(aufgabenstellungDocument);
+            BaseDocument aufgabenstellungDocument = new BaseDocument();
+            aufgabenstellungDocument.setKey(key);
+            aufgabenstellungDocument.addAttribute("text", fragestellungText);
+            aufgabenstellungDocument.addAttribute("fachbereich", fachbereich);
+
+            fragestellung.insertDocument(aufgabenstellungDocument);
+        }
+
+        return fragestellung.name() + "/" + key;
     }
 
-    public static DocumentCreateEntity<BaseDocument> erstelleKnotenParameter(
+    public static String erstelleKnotenParameter(
             ArangoCollection parameter,
             String key,
             String bezeichnung
         ){
 
-        BaseDocument parameterDocument = new BaseDocument();
-        parameterDocument.setKey(key);
-        parameterDocument.addAttribute("bezeichnung", bezeichnung);
+        if (!existiertKnoten(key, parameter)) {
+            BaseDocument parameterDocument = new BaseDocument();
+            parameterDocument.setKey(key);
+            parameterDocument.addAttribute("bezeichnung", bezeichnung);
 
-        return parameter.insertDocument(parameterDocument);
+            parameter.insertDocument(parameterDocument);
+        }
+        return parameter.name() + "/" + key;
     }
 
     public static void erstelleKanteParameter(
