@@ -1,12 +1,12 @@
 package databaseArangoDBTests;
 
 import com.arangodb.ArangoCursor;
-import databaseArangoDB.GraphEntitiesUtility;
+import databaseArangoDB.AufgabenArangoDAO;
 import databaseArangoDB.ArangoDBSetup;
-import modelPhysikaufgabe.AufgabenParameter;
-import modelPhysikaufgabe.Aufgabenstellung;
-import modelPhysikaufgabe.Fragestellung;
-import modelPhysikaufgabe.PhysikAufgabe;
+import fachlogikPhysikaufgaben.AufgabenParameter;
+import fachlogikPhysikaufgaben.Aufgabenstellung;
+import fachlogikPhysikaufgaben.Fragestellung;
+import fachlogikPhysikaufgaben.PhysikAufgabe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,13 +20,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 
-public class GraphEntitiesUtilitySpec {
+public class AufgabenArangoDAOSpec {
 
-    public static ArangoDBSetup physikaufgabenSetup;
+
+    static ArangoDBSetup physikaufgabenSetup;
 
     @BeforeAll
     static void init(){
+
         physikaufgabenSetup = new ArangoDBSetup();
+
+        physikaufgabenSetup.setupCollectionsAndGraph();
 
         List<AufgabenParameter> parameterAufgabe1List = Arrays.asList(
                 new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F, true),
@@ -51,17 +55,22 @@ public class GraphEntitiesUtilitySpec {
 
         );
 
-        GraphEntitiesUtility.createAufgabe(aufgabe, physikaufgabenSetup);
+        AufgabenArangoDAO.createAufgabe(aufgabe);
     }
 
 
     @Test
     void aufgabenstellungDocumentWirdInCollectionAufgabenstellungGeladen(){
 
+
+        physikaufgabenSetup.verbinden();
+
         ArangoCursor<String> query = physikaufgabenSetup.getDatabaseHandler().query(
                 "RETURN DOCUMENT('Aufgabenstellungen/A1')._key",
                 null, null, String.class
         );
+
+        physikaufgabenSetup.schließen();
 
         assertThat(query.asListRemaining()).contains("A1");
     }
@@ -69,20 +78,30 @@ public class GraphEntitiesUtilitySpec {
     @Test
     void einheitDocumentWirdInCollectionAufgabenstellungGeladen(){
 
+
+        physikaufgabenSetup.verbinden();
+
         ArangoCursor<String> query = physikaufgabenSetup.getDatabaseHandler().query(
                 "RETURN DOCUMENT('Parameter/m').bezeichnung",
                 null, null, String.class);
 
         assertThat(query.asListRemaining()).contains("Masse");
+
+        physikaufgabenSetup.schließen();
     }
 
     @Test
     void attributeEinerKanteWerdenAusgelesen(){
 
+
+        physikaufgabenSetup.verbinden();
+
         ArangoCursor<String> query = physikaufgabenSetup.getDatabaseHandler().query(
                 "FOR vertex, edge IN  OUTBOUND 'Aufgabenstellungen/A1' GRAPH 'aufgaben' return edge.formelsymbol",
                 null, null, String.class
         );
+
+        physikaufgabenSetup.schließen();
 
         assertThat(query.asListRemaining(), hasItems("m1", "t1", ""));
 
@@ -92,12 +111,14 @@ public class GraphEntitiesUtilitySpec {
     @AfterAll
     public static void teardown(){
 
+        physikaufgabenSetup.verbinden();
+
         physikaufgabenSetup.getDatabaseHandler().collection("Aufgabenstellungen").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("Parameter").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("GegebeneParameter").drop();
 
         physikaufgabenSetup.getGraph().drop();
 
-        physikaufgabenSetup.getArangoDBInstanz().shutdown();
+        physikaufgabenSetup.schließen();
     }
 }

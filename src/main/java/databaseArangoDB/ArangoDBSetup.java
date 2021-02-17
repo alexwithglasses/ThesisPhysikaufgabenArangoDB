@@ -5,6 +5,7 @@ import com.arangodb.ArangoDatabase;
 import com.arangodb.ArangoGraph;
 import com.arangodb.Protocol;
 import com.arangodb.entity.EdgeDefinition;
+import com.arangodb.entity.GraphEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,26 +15,45 @@ public class ArangoDBSetup {
     private final String ARANGO_USER = "root";
     private final String ARANGO_PASSWORD = "arango";
     private final String DB_NAME = "physikaufgaben";
-    private static final String GRAPH_NAME = "aufgaben";
+    private final String GRAPH_NAME = "aufgaben";
     public static final String[] KNOTEN_COLLECTIONS = {"Aufgabenstellungen", "Parameter", "Fragestellungen"};
     public static final String[] KANTEN_COLLECTIONS = {"GesuchteParameter", "GegebeneParameter", "HatFragestellung"};
 
     private ArangoDB arangoDBInstanz;
     private ArangoDatabase databaseHandler;
+    private ArangoGraph graphHandler;
 
     public ArangoDBSetup(){
+    }
+
+    public void verbinden(){
 
         arangoDBInstanz = new ArangoDB.Builder()
                 .user(ARANGO_USER)
                 .password(ARANGO_PASSWORD)
                 .build();
 
+        databaseHandler = arangoDBInstanz.db(DB_NAME);
+
+        graphHandler = databaseHandler.graph(GRAPH_NAME);
+
+    }
+
+    public void schließen(){
+        arangoDBInstanz.shutdown();
+    }
+
+    public void setupCollectionsAndGraph(){
+
+        verbinden();
+
         setupDatabaseAndCollectionsIfNeeded();
 
-        if(!databaseHandler.graph(GRAPH_NAME).exists()){
+        if(!graphHandler.exists()){
             createGraph();
         }
 
+        schließen();
     }
 
     private void setupDatabaseAndCollectionsIfNeeded(){

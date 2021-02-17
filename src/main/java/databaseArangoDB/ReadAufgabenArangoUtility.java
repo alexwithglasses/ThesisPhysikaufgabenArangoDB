@@ -3,17 +3,16 @@ package databaseArangoDB;
 import com.arangodb.ArangoCursor;
 import com.arangodb.entity.BaseDocument;
 import com.arangodb.util.MapBuilder;
-import modelPhysikaufgabe.AufgabenParameter;
-import modelPhysikaufgabe.Aufgabenstellung;
-import modelPhysikaufgabe.Fragestellung;
-import modelPhysikaufgabe.PhysikAufgabe;
+import fachlogikPhysikaufgaben.AufgabenParameter;
+import fachlogikPhysikaufgaben.Aufgabenstellung;
+import fachlogikPhysikaufgaben.Fragestellung;
+import fachlogikPhysikaufgaben.PhysikAufgabe;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class AufgabeArangoDB {
+public class ReadAufgabenArangoUtility {
 
 
     public static String getAufgabeAlsString(String handleAufgabenstellung, ArangoDBSetup physikaufgabenSetup) {

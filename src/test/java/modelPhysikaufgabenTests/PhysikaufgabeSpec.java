@@ -1,9 +1,9 @@
 package modelPhysikaufgabenTests;
 
-import modelPhysikaufgabe.Aufgabenstellung;
-import modelPhysikaufgabe.AufgabenParameter;
-import modelPhysikaufgabe.Fragestellung;
-import modelPhysikaufgabe.PhysikAufgabe;
+import fachlogikPhysikaufgaben.Aufgabenstellung;
+import fachlogikPhysikaufgaben.AufgabenParameter;
+import fachlogikPhysikaufgaben.Fragestellung;
+import fachlogikPhysikaufgaben.PhysikAufgabe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

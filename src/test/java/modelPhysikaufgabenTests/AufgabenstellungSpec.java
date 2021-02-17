@@ -1,7 +1,7 @@
 package modelPhysikaufgabenTests;
 
-import modelPhysikaufgabe.Aufgabenstellung;
-import modelPhysikaufgabe.AufgabenParameter;
+import fachlogikPhysikaufgaben.Aufgabenstellung;
+import fachlogikPhysikaufgaben.AufgabenParameter;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

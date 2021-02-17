@@ -1,4 +1,4 @@
-package modelPhysikaufgabe;
+package fachlogikPhysikaufgaben;
 
 import java.util.Random;
 

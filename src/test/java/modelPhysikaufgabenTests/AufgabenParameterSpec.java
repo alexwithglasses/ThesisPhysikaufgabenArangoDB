@@ -1,6 +1,6 @@
 package modelPhysikaufgabenTests;
 
-import modelPhysikaufgabe.AufgabenParameter;
+import fachlogikPhysikaufgaben.AufgabenParameter;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

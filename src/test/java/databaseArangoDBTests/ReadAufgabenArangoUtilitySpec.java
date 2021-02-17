@@ -1,35 +1,34 @@
 package databaseArangoDBTests;
 
 import com.arangodb.ArangoCursor;
-import com.arangodb.entity.BaseDocument;
 import databaseArangoDB.ArangoDBSetup;
-import databaseArangoDB.AufgabeArangoDB;
-import databaseArangoDB.GraphEntitiesUtility;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-import modelPhysikaufgabe.AufgabenParameter;
-import modelPhysikaufgabe.Aufgabenstellung;
-import modelPhysikaufgabe.Fragestellung;
-import modelPhysikaufgabe.PhysikAufgabe;
+import databaseArangoDB.ReadAufgabenArangoUtility;
+import databaseArangoDB.AufgabenArangoDAO;
+import fachlogikPhysikaufgaben.AufgabenParameter;
+import fachlogikPhysikaufgaben.Aufgabenstellung;
+import fachlogikPhysikaufgaben.Fragestellung;
+import fachlogikPhysikaufgaben.PhysikAufgabe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class AufgabeArangoDBSpec {
+public class ReadAufgabenArangoUtilitySpec {
 
     public static ArangoDBSetup physikaufgabenSetup;
 
     @BeforeAll
     static void init(){
         physikaufgabenSetup = new ArangoDBSetup();
+
+        physikaufgabenSetup.setupCollectionsAndGraph();
 
         List<AufgabenParameter> parameterAufgabe1List = Arrays.asList(
                 new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F, true),
@@ -54,17 +53,22 @@ public class AufgabeArangoDBSpec {
 
         );
 
-        GraphEntitiesUtility.createAufgabe(aufgabe, physikaufgabenSetup);
+        AufgabenArangoDAO.createAufgabe(aufgabe);
 
 
     }
 
     @Test
     void erhalteFragestellungenOhneParameter(){
+
+        physikaufgabenSetup.verbinden();
+
         ArangoCursor<String> query = physikaufgabenSetup.getDatabaseHandler().query(
                 "FOR v, e IN 1..1  OUTBOUND 'Aufgabenstellungen/A1' HatFragestellung RETURN v.text",
                 null, null, String.class
         );
+
+        physikaufgabenSetup.schließen();
 
         assertThat(query.asListRemaining(), hasItems("a) Bestimmen Sie die Frequenz {0} und die Federkonstante {1} der Schwingung."));
     }
@@ -72,7 +76,7 @@ public class AufgabeArangoDBSpec {
     @Test
     void erhalteFragestellungenMitParameterAlsString(){
 
-              ArrayList<String> fragen =  AufgabeArangoDB.getFragestellungenAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
+              ArrayList<String> fragen =  ReadAufgabenArangoUtility.getFragestellungenAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
 
               assertThat(fragen, hasItems("a) Bestimmen Sie die Frequenz f1 und die Federkonstante D1 der Schwingung."));
 
@@ -83,7 +87,7 @@ public class AufgabeArangoDBSpec {
     @Test
     void erhalteAufgabenstellungMitParameterAlsString(){
 
-        String aufgabenstellung = AufgabeArangoDB.getAufgabenstellungAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
+        String aufgabenstellung = ReadAufgabenArangoUtility.getAufgabenstellungAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
 
         System.out.println(aufgabenstellung);
 
@@ -95,7 +99,7 @@ public class AufgabeArangoDBSpec {
     @Test
     void erhalteKompletteAufgabeAlsString(){
 
-        String aufgabe = AufgabeArangoDB.getAufgabeAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
+        String aufgabe = ReadAufgabenArangoUtility.getAufgabeAlsString("Aufgabenstellungen/A1", physikaufgabenSetup);
 
         System.out.println(aufgabe);
 
@@ -109,6 +113,7 @@ public class AufgabeArangoDBSpec {
     @AfterAll
     public static void teardown(){
 
+        physikaufgabenSetup.verbinden();
 
         physikaufgabenSetup.getDatabaseHandler().collection("Aufgabenstellungen").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("Parameter").drop();
@@ -119,7 +124,6 @@ public class AufgabeArangoDBSpec {
 
         physikaufgabenSetup.getGraph().drop();
 
-
-        physikaufgabenSetup.getArangoDBInstanz().shutdown();
+        physikaufgabenSetup.schließen();
     }
 }
