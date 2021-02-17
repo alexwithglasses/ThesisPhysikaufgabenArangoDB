@@ -9,6 +9,7 @@ import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.Fragestellung;
 import fachlogikPhysikaufgaben.PhysikAufgabe;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,12 +70,14 @@ public class ReadAufgabenArangoUtility {
 
         }
 
+
         Aufgabenstellung aufgabenstellung = new Aufgabenstellung(
                 aufgabenstellungDoc.getKey(),
                 (String) aufgabenstellungDoc.getAttribute("text"),
                 gegebeneParameterList,
                 (String) aufgabenstellungDoc.getAttribute("fachbereich")
         );
+
 
         return aufgabenstellung;
     }

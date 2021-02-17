@@ -27,9 +27,11 @@ public class CreateAufgabenArangoUtility {
 
         if (!existiertKnoten(aufgabenstellung.getId(), aufgabenstellungCollection)) {
 
+            String aufgabenstellungUTF8 = ersetzeUmlaute(aufgabenstellung.getAufgabenstellungText());
+
             BaseDocument aufgabenstellungDocument = new BaseDocument();
             aufgabenstellungDocument.setKey(aufgabenstellung.getId());
-            aufgabenstellungDocument.addAttribute("text", aufgabenstellung.getAufgabenstellungText());
+            aufgabenstellungDocument.addAttribute("text", aufgabenstellungUTF8);
             aufgabenstellungDocument.addAttribute("fachbereich", aufgabenstellung.getFachbereich());
 
             aufgabenstellungCollection.insertDocument(aufgabenstellungDocument);
@@ -44,9 +46,11 @@ public class CreateAufgabenArangoUtility {
 
         if(!existiertKnoten(frage.getId(), fragestellungCollection)) {
 
+            String fragestellungUTF8 = ersetzeUmlaute(frage.getFragestellungText());
+
             BaseDocument aufgabenstellungDocument = new BaseDocument();
             aufgabenstellungDocument.setKey(frage.getId());
-            aufgabenstellungDocument.addAttribute("text", frage.getFragestellungText());
+            aufgabenstellungDocument.addAttribute("text", fragestellungUTF8);
             aufgabenstellungDocument.addAttribute("fachbereich", frage.getFachbereich());
 
             fragestellungCollection.insertDocument(aufgabenstellungDocument);
@@ -100,6 +104,19 @@ public class CreateAufgabenArangoUtility {
         doc.setFrom(from);
         doc.setTo(to);
         hatFrage.insertEdge(doc);
+    }
+
+
+    public static String ersetzeUmlaute(String orig) {
+        String[][] UMLAUT_REPLACEMENTS = { { new String("Ä"), "\u00c4" }, { new String("Ü"), "\u00dc" }, { new String("Ö"), "\u00d6" }, { new String("ä"), "\u00e4" }, { new String("ü"), "\u00fc" }, { new String("ö"), "\u00f6" }, { new String("ß"), "\u00df" } };
+
+        String result = orig;
+
+        for (int i = 0; i < UMLAUT_REPLACEMENTS.length; i++) {
+            result = result.replace(UMLAUT_REPLACEMENTS[i][0], UMLAUT_REPLACEMENTS[i][1]);
+        }
+
+        return result;
     }
 
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -134,6 +135,8 @@ public class AufgabenArangoDAOSpec {
         physikaufgabenSetup.getDatabaseHandler().collection("HatFragestellung").drop();
 
         physikaufgabenSetup.getGraph().drop();
+
+
 
         physikaufgabenSetup.schließen();
     }

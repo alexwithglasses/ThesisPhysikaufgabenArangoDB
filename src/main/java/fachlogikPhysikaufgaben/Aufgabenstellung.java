@@ -1,5 +1,6 @@
 package fachlogikPhysikaufgaben;
 
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,11 @@ public class Aufgabenstellung {
     public Aufgabenstellung(String id,String aufgabenstellungText, List<AufgabenParameter> gegebeneParameterList, String fachbereich){
 
         this.id = id;
+
+        //byte[] byteString = aufgabenstellungText.getBytes(StandardCharsets.ISO_8859_1);
+        //this.aufgabenstellungText = new String(byteString, StandardCharsets.UTF_8);
         this.aufgabenstellungText = aufgabenstellungText;
+
         this.gegebeneParameterList = gegebeneParameterList;
         this.fachbereich = fachbereich;
     }
