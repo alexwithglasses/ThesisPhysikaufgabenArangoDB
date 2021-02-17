@@ -73,7 +73,8 @@ public class AufgabeArangoDB {
                     (String) gegebenerParameter.getAttribute("bezeichnungParameter"),
                     (String) gegebenerParameter.getAttribute("einheit"),
                     new Float((Double) gegebenerParameter.getAttribute("untereSchrankeWertebereich")),
-                    new Float((Double) gegebenerParameter.getAttribute("obereSchrankeWertebereich"))
+                    new Float((Double) gegebenerParameter.getAttribute("obereSchrankeWertebereich")),
+                    (boolean) gegebenerParameter.getAttribute("ganzeZahl")
             );
 
             gegebeneParameterList.add(parameter);

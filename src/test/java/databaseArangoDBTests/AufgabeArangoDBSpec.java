@@ -5,6 +5,7 @@ import com.arangodb.entity.BaseDocument;
 import databaseArangoDB.ArangoDBSetup;
 import databaseArangoDB.AufgabeArangoDB;
 import databaseArangoDB.GraphEntitiesUtility;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import modelPhysikaufgabe.AufgabenParameter;
 import modelPhysikaufgabe.Aufgabenstellung;
 import modelPhysikaufgabe.Fragestellung;
@@ -31,9 +32,9 @@ public class AufgabeArangoDBSpec {
         physikaufgabenSetup = new ArangoDBSetup();
 
         List<AufgabenParameter> parameterAufgabe1List = Arrays.asList(
-                new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F),
-                new AufgabenParameter("t1", "Zeit","t", "min", 1, 5),
-                new AufgabenParameter("","Schwingungen","Schwingungen", "Schwingungen", 50, 150)
+                new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F, true),
+                new AufgabenParameter("t1", "Zeit","t", "min", 1, 5, false),
+                new AufgabenParameter("","Schwingungen","Schwingungen", "Schwingungen", 50, 150, true)
         );
 
         PhysikAufgabe aufgabe = new PhysikAufgabe(
@@ -46,8 +47,8 @@ public class AufgabeArangoDBSpec {
                 new Fragestellung(
                         "A1a",
                         "a) Bestimmen Sie die Frequenz {0} und die Federkonstante {1} der Schwingung.",
-                        Arrays.asList(new AufgabenParameter("f1", "Frequenz", "f","Hz", 0,0),
-                                new AufgabenParameter("D1", "Federkonstante", "D", "N/m", 0,0)),
+                        Arrays.asList(new AufgabenParameter("f1", "Frequenz", "f","Hz", 0,0, true),
+                                new AufgabenParameter("D1", "Federkonstante", "D", "N/m", 0,0, true)),
                         "Mechanik"
                 )
 
@@ -78,6 +79,7 @@ public class AufgabeArangoDBSpec {
 
     }
 
+
     @Test
     void erhalteAufgabenstellungMitParameterAlsString(){
 
@@ -88,6 +90,7 @@ public class AufgabeArangoDBSpec {
         assertThat(aufgabenstellung, notNullValue());
 
     }
+
 
     @Test
     void erhalteKompletteAufgabeAlsString(){
@@ -115,9 +118,6 @@ public class AufgabeArangoDBSpec {
         physikaufgabenSetup.getDatabaseHandler().collection("HatFragestellung").drop();
 
         physikaufgabenSetup.getGraph().drop();
-
-
-
 
 
         physikaufgabenSetup.getArangoDBInstanz().shutdown();

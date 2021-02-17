@@ -11,6 +11,7 @@ public class AufgabenParameter {
     private float zahlenwert;
     private float untereSchrankeZahlenwert;
     private float obereSchrankeZahlenwert;
+    private boolean ganzeZahl;
 
 
     public AufgabenParameter(String bezeichner, String einheit){
@@ -24,25 +25,38 @@ public class AufgabenParameter {
         this.zahlenwert = zahlenwert;
     }
 
-    public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, float untereSchrankeZahlenwert, float obereSchrankeZahlenwert){
+    public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, float untereSchrankeZahlenwert, float obereSchrankeZahlenwert, boolean ganzeZahl){
         this.formelsymbol = formelsymbol;
         this.bezeichnung = bezeichnung;
         this.bezeichner = bezeichner;
         this.einheit = einheit;
         this.untereSchrankeZahlenwert = untereSchrankeZahlenwert;
         this.obereSchrankeZahlenwert = obereSchrankeZahlenwert;
+        this.ganzeZahl = ganzeZahl;
 
         this.generiereZahlenwert();
     }
 
     public void generiereZahlenwert(){
         Random r = new Random();
-        zahlenwert = untereSchrankeZahlenwert + r.nextFloat() * (obereSchrankeZahlenwert - untereSchrankeZahlenwert);
+        if(ganzeZahl){
+            zahlenwert = r.nextInt((int) (untereSchrankeZahlenwert +1)) + untereSchrankeZahlenwert;
+        }else {
+            zahlenwert = untereSchrankeZahlenwert + r.nextFloat() * (obereSchrankeZahlenwert - untereSchrankeZahlenwert);
+        }
     }
 
     @Override
     public String toString(){
-        return String.format("%.2f", zahlenwert) + " " + einheit;
+        if(isGanzeZahl()){
+            return (int) zahlenwert + " " + einheit;
+        } else {
+            return String.format("%.2f", zahlenwert) + " " + einheit;
+        }
+    }
+
+    public boolean isGanzeZahl() {
+        return ganzeZahl;
     }
 
     public void setBezeichner(String bezeichner) {

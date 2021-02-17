@@ -15,7 +15,34 @@ import static databaseArangoDB.ArangoDBSetup.KNOTEN_COLLECTIONS;
 
 public class GraphEntitiesUtility {
 
-    public static boolean existiertKnoten(String knotenKey, ArangoCollection knotenCollection){
+
+    public static String createAufgabe(PhysikAufgabe aufgabe, ArangoDBSetup arangoDBInstanz){
+
+        String idAufgabenstellung = erstelleKnotenAufgabenstellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[0]), aufgabe.getAufgabenstellung() );
+
+        for (AufgabenParameter parameter: aufgabe.getAufgabenstellung().getGegebeneParameterList()
+        ) {
+            String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
+            erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[1]), idAufgabenstellung, idParameter, parameter);
+        }
+
+        for (Fragestellung frage : aufgabe.getFragestellungList()
+        ) {
+            String idFragestellung = erstelleKnotenFragestellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[2]), frage);
+            erstelleKanteFragestellung(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[2]),idAufgabenstellung, idFragestellung);
+
+            for (AufgabenParameter parameter: frage.getGesuchteParameterList()
+            ) {
+                String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
+                erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[0]), idFragestellung, idParameter, parameter);
+            }
+        }
+
+        return idAufgabenstellung;
+    }
+
+
+    private static boolean existiertKnoten(String knotenKey, ArangoCollection knotenCollection){
 
         String knotenDocID = knotenCollection.getDocument(knotenKey, String.class);
 
@@ -27,33 +54,8 @@ public class GraphEntitiesUtility {
 
     }
 
-    public static String createAufgabe(PhysikAufgabe aufgabe, ArangoDBSetup arangoDBInstanz){
 
-        String idAufgabenstellung = erstelleKnotenAufgabenstellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[0]), aufgabe.getAufgabenstellung() );
-
-        for (AufgabenParameter parameter: aufgabe.getAufgabenstellung().getGegebeneParameterList()
-             ) {
-            String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
-            erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[1]), idAufgabenstellung, idParameter, parameter);
-        }
-
-        for (Fragestellung frage : aufgabe.getFragestellungList()
-             ) {
-            String idFragestellung = erstelleKnotenFragestellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[2]), frage);
-            erstelleKanteFragestellung(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[2]),idAufgabenstellung, idFragestellung);
-
-            for (AufgabenParameter parameter: frage.getGesuchteParameterList()
-                 ) {
-                String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
-                erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[0]), idFragestellung, idParameter, parameter);
-            }
-        }
-
-        return idAufgabenstellung;
-    }
-
-
-    public static String erstelleKnotenAufgabenstellung(
+    private static String erstelleKnotenAufgabenstellung(
             ArangoCollection aufgabenstellungCollection,
             Aufgabenstellung aufgabenstellung
     ){
@@ -70,7 +72,7 @@ public class GraphEntitiesUtility {
         return aufgabenstellungCollection.name() + "/" + aufgabenstellung.getId();
     }
 
-    public static String erstelleKnotenFragestellung(
+    private static String erstelleKnotenFragestellung(
             ArangoCollection fragestellungCollection,
             Fragestellung frage
             ){
@@ -88,7 +90,7 @@ public class GraphEntitiesUtility {
         return fragestellungCollection.name() + "/" + frage.getId();
     }
 
-    public static String erstelleKnotenParameter(
+    private static String erstelleKnotenParameter(
             ArangoCollection parameterCollection,
             AufgabenParameter parameter
         ){
@@ -103,7 +105,7 @@ public class GraphEntitiesUtility {
         return parameterCollection.name() + "/" + parameter.getBezeichner();
     }
 
-    public static void erstelleKanteParameter(
+    private static void erstelleKanteParameter(
             ArangoEdgeCollection parameterCollection,
             String from,
             String to,
@@ -116,6 +118,7 @@ public class GraphEntitiesUtility {
         doc.addAttribute("obereSchrankeWertebereich", parameter.getObereSchrankeZahlenwert());
         doc.addAttribute("einheit", parameter.getEinheit());
         doc.addAttribute("formelsymbol", parameter.getFormelsymbol());
+        doc.addAttribute("ganzeZahl", parameter.isGanzeZahl());
 
         doc.setFrom(from);
         doc.setTo(to);
@@ -123,7 +126,7 @@ public class GraphEntitiesUtility {
         parameterCollection.insertEdge(doc);
     }
 
-    public static void erstelleKanteFragestellung(
+    private static void erstelleKanteFragestellung(
             ArangoEdgeCollection hatFrage,
             String from,
             String to
