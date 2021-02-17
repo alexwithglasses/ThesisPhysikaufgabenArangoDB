@@ -1,8 +1,9 @@
-package databaseArangoDB;
+package databaseArangoDB.aufgabenArangoUtil;
 
 import com.arangodb.ArangoCursor;
 import com.arangodb.entity.BaseDocument;
 import com.arangodb.util.MapBuilder;
+import databaseArangoDB.ArangoDBSetup;
 import fachlogikPhysikaufgaben.AufgabenParameter;
 import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.Fragestellung;
@@ -14,18 +15,6 @@ import java.util.Map;
 
 public class ReadAufgabenArangoUtility {
 
-
-    public static String getAufgabeAlsString(String handleAufgabenstellung, ArangoDBSetup physikaufgabenSetup) {
-
-        List<Fragestellung> fragen = getFragestellungenMitParametern(handleAufgabenstellung, physikaufgabenSetup);
-
-        PhysikAufgabe aufgabe = new PhysikAufgabe(
-                getAufgabenstellungMitParametern(handleAufgabenstellung,physikaufgabenSetup),
-                fragen.toArray(new Fragestellung[fragen.size()])
-                );
-
-        return aufgabe.toString();
-    }
 
 
     public static ArrayList<String> getFragestellungenAlsString(String handleAufgabe, ArangoDBSetup physikaufgabenSetup){
@@ -50,7 +39,7 @@ public class ReadAufgabenArangoUtility {
 
 
 
-    private static Aufgabenstellung getAufgabenstellungMitParametern(String handleAufgabe, ArangoDBSetup physikaufgabenSetup) {
+    public static Aufgabenstellung getAufgabenstellungMitParametern(String handleAufgabe, ArangoDBSetup physikaufgabenSetup) {
 
         BaseDocument aufgabenstellungDoc = physikaufgabenSetup.getDatabaseHandler().getDocument(handleAufgabe, BaseDocument.class);
 
@@ -90,7 +79,7 @@ public class ReadAufgabenArangoUtility {
         return aufgabenstellung;
     }
 
-    private static List<Fragestellung> getFragestellungenMitParametern(String handleAufgabenstellung, ArangoDBSetup physikaufgabenSetup){
+    public static List<Fragestellung> getFragestellungenMitParametern(String handleAufgabenstellung, ArangoDBSetup physikaufgabenSetup){
 
         List<Fragestellung> returnFragestellungen = new ArrayList<>();
 

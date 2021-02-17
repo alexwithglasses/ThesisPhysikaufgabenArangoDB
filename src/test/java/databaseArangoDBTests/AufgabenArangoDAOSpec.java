@@ -34,7 +34,7 @@ public class AufgabenArangoDAOSpec {
 
         List<AufgabenParameter> parameterAufgabe1List = Arrays.asList(
                 new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F, true),
-                new AufgabenParameter("t1", "Zeit","t", "min", 1, 5, false),
+                new AufgabenParameter("t1", "Zeit","t", "min", 1, 5, true),
                 new AufgabenParameter("","Schwingungen","Schwingungen", "Schwingungen", 50, 150, true)
         );
 
@@ -55,7 +55,19 @@ public class AufgabenArangoDAOSpec {
 
         );
 
-        AufgabenArangoDAO.createAufgabe(aufgabe);
+        new AufgabenArangoDAO().createAufgabe(aufgabe);
+
+    }
+
+    @Test
+    void lesenEinerPhysikaufgabeAnhandDerAufgabenstellungID(){
+
+        PhysikAufgabe aufgabe = AufgabenArangoDAO.readAufgabe("Aufgabenstellungen/A1");
+
+        System.out.println(aufgabe.toString());
+
+        assertThat(aufgabe.getAufgabenstellung(), notNullValue());
+
     }
 
 
@@ -113,9 +125,13 @@ public class AufgabenArangoDAOSpec {
 
         physikaufgabenSetup.verbinden();
 
+
         physikaufgabenSetup.getDatabaseHandler().collection("Aufgabenstellungen").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("Parameter").drop();
         physikaufgabenSetup.getDatabaseHandler().collection("GegebeneParameter").drop();
+        physikaufgabenSetup.getDatabaseHandler().collection("Fragestellungen").drop();
+        physikaufgabenSetup.getDatabaseHandler().collection("GesuchteParameter").drop();
+        physikaufgabenSetup.getDatabaseHandler().collection("HatFragestellung").drop();
 
         physikaufgabenSetup.getGraph().drop();
 

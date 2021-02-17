@@ -1,4 +1,4 @@
-package modelPhysikaufgabenTests;
+package fachlogikPhysikaufgabenTest;
 
 import fachlogikPhysikaufgaben.AufgabenParameter;
 

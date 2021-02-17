@@ -1,4 +1,4 @@
-package databaseArangoDB;
+package databaseArangoDB.aufgabenArangoUtil;
 
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoEdgeCollection;
@@ -14,16 +14,13 @@ public class CreateAufgabenArangoUtility {
 
         String knotenDocID = knotenCollection.getDocument(knotenKey, String.class);
 
-        if(knotenDocID != null){
-            return true;
-        }else{
-            return false;
-        }
+        //returns true if not null, false otherwise
+        return knotenDocID != null;
 
     }
 
 
-    protected static String erstelleKnotenAufgabenstellung(
+    public static String erstelleKnotenAufgabenstellung(
             ArangoCollection aufgabenstellungCollection,
             Aufgabenstellung aufgabenstellung
     ){
@@ -40,7 +37,7 @@ public class CreateAufgabenArangoUtility {
         return aufgabenstellungCollection.name() + "/" + aufgabenstellung.getId();
     }
 
-    protected static String erstelleKnotenFragestellung(
+    public static String erstelleKnotenFragestellung(
             ArangoCollection fragestellungCollection,
             Fragestellung frage
     ){
@@ -58,7 +55,7 @@ public class CreateAufgabenArangoUtility {
         return fragestellungCollection.name() + "/" + frage.getId();
     }
 
-    protected static String erstelleKnotenParameter(
+    public static String erstelleKnotenParameter(
             ArangoCollection parameterCollection,
             AufgabenParameter parameter
     ){
@@ -73,7 +70,7 @@ public class CreateAufgabenArangoUtility {
         return parameterCollection.name() + "/" + parameter.getBezeichner();
     }
 
-    protected static void erstelleKanteParameter(
+    public static void erstelleKanteParameter(
             ArangoEdgeCollection parameterCollection,
             String from,
             String to,
@@ -94,7 +91,7 @@ public class CreateAufgabenArangoUtility {
         parameterCollection.insertEdge(doc);
     }
 
-    protected static void erstelleKanteFragestellung(
+    public static void erstelleKanteFragestellung(
             ArangoEdgeCollection hatFrage,
             String from,
             String to

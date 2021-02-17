@@ -5,11 +5,14 @@ import fachlogikPhysikaufgaben.AufgabenParameter;
 import fachlogikPhysikaufgaben.Fragestellung;
 import fachlogikPhysikaufgaben.PhysikAufgabe;
 
-import static databaseArangoDB.CreateAufgabenArangoUtility.*;
+
+import java.util.List;
+
+import static databaseArangoDB.aufgabenArangoUtil.CreateAufgabenArangoUtility.*;
+import static databaseArangoDB.aufgabenArangoUtil.ReadAufgabenArangoUtility.*;
 
 
-public class AufgabenArangoDAO extends ArangoDBSetup implements IAufgabenDAO {
-
+public class AufgabenArangoDAO extends ArangoDBSetup {
 
     public static String createAufgabe(PhysikAufgabe aufgabe){
 
@@ -43,8 +46,23 @@ public class AufgabenArangoDAO extends ArangoDBSetup implements IAufgabenDAO {
     }
 
 
+    public static PhysikAufgabe readAufgabe(String aufgabenstellungID){
+
+        ArangoDBSetup arangoDBInstanz = new ArangoDBSetup();
+
+        arangoDBInstanz.verbinden();
+
+            List<Fragestellung> fragen = getFragestellungenMitParametern(aufgabenstellungID, arangoDBInstanz);
+
+            PhysikAufgabe aufgabe = new PhysikAufgabe(
+                    getAufgabenstellungMitParametern(aufgabenstellungID,arangoDBInstanz),
+                    fragen.toArray(new Fragestellung[fragen.size()])
+            );
 
 
+            arangoDBInstanz.schließen();
+            return aufgabe;
+        }
 
 
 }
