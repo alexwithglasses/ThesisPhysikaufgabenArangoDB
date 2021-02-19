@@ -11,12 +11,13 @@ import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class AufgabeNachTeXDatei {
 
-        public static boolean writeStringToTexFile(List<String> writeToTex){
+        public static String writeStringToTexFile(LinkedList<String> writeToTex){
 
             String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
@@ -28,29 +29,34 @@ public class AufgabeNachTeXDatei {
                     "\\usepackage[ngerman]{babel}\n" +
                     "\\usepackage[utf8]{inputenc}\n" +
                     "\n" +
-                    "\\begin{document}";
+                    "\\begin{document}" + System.lineSeparator();
 
             String fileFoot = "\\end{document}";
 
+            writeToTex.addFirst(fileHead);
+            writeToTex.addLast(fileFoot);
 
             try {
+               /*
                 Files.write(path,
                         fileHead.getBytes(StandardCharsets.UTF_8),
                         StandardOpenOption.CREATE
                 );
 
+                */
+
                 for (String aufgabe: writeToTex
                      ) {
-                    Files.write(path, aufgabe.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+                    Files.write(path, aufgabe.getBytes(StandardCharsets.UTF_8),StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                 }
 
-                Files.write(path,fileFoot.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+                //Files.write(path,fileFoot.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
 
 
             } catch (IOException x) {
-                return false;
+                return path.toString();
             }
-            return true;
+            return path.toString();
         }
 
 }

@@ -23,12 +23,20 @@ public class PhysikAufgabe {
 
         StringBuilder aufgabenstellungFragestellungString = new StringBuilder();
 
-        aufgabenstellungFragestellungString.append(aufgabenstellung.toString());
+        aufgabenstellungFragestellungString.append(
+                "\\section*{"
+                        + aufgabenstellung.getId()
+                        + " "
+                        + aufgabenstellung.getFachbereich()
+                + "}");
+
+        aufgabenstellungFragestellungString.append(System.lineSeparator());
+        aufgabenstellungFragestellungString.append(aufgabenstellung.toString()+"\\\\");
         aufgabenstellungFragestellungString.append(System.lineSeparator());
 
         for (Fragestellung fragestellung: fragestellungList
              ) {
-            aufgabenstellungFragestellungString.append(fragestellung.toString());
+            aufgabenstellungFragestellungString.append(fragestellung.toString() +"\\\\");
             aufgabenstellungFragestellungString.append(System.lineSeparator());
         }
 

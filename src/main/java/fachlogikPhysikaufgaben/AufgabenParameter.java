@@ -19,10 +19,13 @@ public class AufgabenParameter {
         this.einheit = einheit;
     }
 
-    public AufgabenParameter(String bezeichner, String einheit, float zahlenwert){
+    public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, float zahlenwert, boolean ganzeZahl){
+        this.formelsymbol = formelsymbol;
+        this.bezeichnung = bezeichnung;
         this.bezeichner = bezeichner;
         this.einheit = einheit;
         this.zahlenwert = zahlenwert;
+        this.ganzeZahl = ganzeZahl;
     }
 
     public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, float untereSchrankeZahlenwert, float obereSchrankeZahlenwert, boolean ganzeZahl){

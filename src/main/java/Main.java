@@ -1,8 +1,10 @@
 import databaseArangoDB.ArangoDBSetup;
 import databaseArangoDB.AufgabenArangoDAO;
+import fachlogikPhysikaufgaben.PhysikAufgabe;
 import outputLatex.AufgabeNachTeXDatei;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Main {
@@ -13,14 +15,21 @@ public class Main {
 
         arangoDBSetup.setupCollectionsAndGraph();
 
-        ExampleData.erstelleTestdaten();
+        List<PhysikAufgabe> aufgabenErstellt = ExampleData.erstelleTestdaten();
 
-        List<String> aufgaben = new ArrayList<>();
+        LinkedList<String> aufgabenGelesen = new LinkedList<>();
 
-        aufgaben.add(AufgabenArangoDAO.readAufgabe("Aufgabenstellungen/A1").toString());
-        aufgaben.add(AufgabenArangoDAO.readAufgabe("Aufgabenstellungen/A2").toString());
+        for (PhysikAufgabe aufgabe : aufgabenErstellt
+             ) {
+            aufgabenGelesen.add(AufgabenArangoDAO.readAufgabe("Aufgabenstellungen/" +aufgabe.getAufgabenstellung().getId()).toString());
+        }
 
-        AufgabeNachTeXDatei.writeStringToTexFile(aufgaben);
+
+        AufgabeNachTeXDatei.writeStringToTexFile(aufgabenGelesen);
+
+
+
+        ExampleData.loescheTestdaten();
 
     }
 }
