@@ -3,13 +3,13 @@ package fachlogikPhysikaufgaben;
 
 import java.util.ArrayList;
 
-public class PhysikAufgabe {
+public class Physikaufgabe {
 
     private Aufgabenstellung aufgabenstellung;
     private ArrayList<Fragestellung> fragestellungList;
 
 
-    public PhysikAufgabe(Aufgabenstellung aufgabenstellung, Fragestellung... fragestellungen){
+    public Physikaufgabe(Aufgabenstellung aufgabenstellung, Fragestellung... fragestellungen){
         this.aufgabenstellung = aufgabenstellung;
         fragestellungList = new ArrayList<>();
 

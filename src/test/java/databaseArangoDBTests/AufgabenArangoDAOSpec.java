@@ -1,17 +1,16 @@
 package databaseArangoDBTests;
 
 import com.arangodb.ArangoCursor;
-import databaseArangoDB.AufgabenArangoDAO;
-import databaseArangoDB.ArangoDBSetup;
+import datenbankArangoDB.AufgabenArangoDAO;
+import datenbankArangoDB.ArangoDBSetup;
 import fachlogikPhysikaufgaben.AufgabenParameter;
 import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.Fragestellung;
-import fachlogikPhysikaufgaben.PhysikAufgabe;
+import fachlogikPhysikaufgaben.Physikaufgabe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class AufgabenArangoDAOSpec {
                 new AufgabenParameter("","Schwingungen","Schwingungen", "Schwingungen", 50, 150, true)
         );
 
-        PhysikAufgabe aufgabe = new PhysikAufgabe(
+        Physikaufgabe aufgabe = new Physikaufgabe(
                 new Aufgabenstellung(
                         "A1",
                         "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.",
@@ -63,7 +62,7 @@ public class AufgabenArangoDAOSpec {
     @Test
     void lesenEinerPhysikaufgabeAnhandDerAufgabenstellungID(){
 
-        PhysikAufgabe aufgabe = AufgabenArangoDAO.readAufgabe("Aufgabenstellungen/A1");
+        Physikaufgabe aufgabe = AufgabenArangoDAO.readAufgabe("Aufgabenstellungen/A1");
 
         System.out.println(aufgabe.toString());
 

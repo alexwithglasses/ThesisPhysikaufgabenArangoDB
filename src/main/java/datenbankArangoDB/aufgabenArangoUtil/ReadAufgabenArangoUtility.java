@@ -1,43 +1,18 @@
-package databaseArangoDB.aufgabenArangoUtil;
+package datenbankArangoDB.aufgabenArangoUtil;
 
 import com.arangodb.ArangoCursor;
 import com.arangodb.entity.BaseDocument;
 import com.arangodb.util.MapBuilder;
-import databaseArangoDB.ArangoDBSetup;
+import datenbankArangoDB.ArangoDBSetup;
 import fachlogikPhysikaufgaben.AufgabenParameter;
 import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.Fragestellung;
-import fachlogikPhysikaufgaben.PhysikAufgabe;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ReadAufgabenArangoUtility {
-
-
-
-    public static ArrayList<String> getFragestellungenAlsString(String handleAufgabe, ArangoDBSetup physikaufgabenSetup){
-
-        ArrayList<String> returnFragestellungen = new ArrayList<>();
-
-        for (Fragestellung frage: getFragestellungenMitParametern(handleAufgabe, physikaufgabenSetup)
-             ) {
-            returnFragestellungen.add(frage.toString());
-        }
-
-        return returnFragestellungen;
-
-    }
-
-
-    public static String getAufgabenstellungAlsString(String handleAufgabe, ArangoDBSetup physikaufgabenSetup){
-
-         Aufgabenstellung aufgabenstellung = getAufgabenstellungMitParametern(handleAufgabe, physikaufgabenSetup);
-        return aufgabenstellung.toString();
-    }
-
 
 
     public static Aufgabenstellung getAufgabenstellungMitParametern(String handleAufgabe, ArangoDBSetup physikaufgabenSetup) {
@@ -128,5 +103,25 @@ public class ReadAufgabenArangoUtility {
         }
 
         return returnFragestellungen;
+    }
+
+    public static ArrayList<String> getFragestellungenAlsString(String handleAufgabe, ArangoDBSetup physikaufgabenSetup){
+
+        ArrayList<String> returnFragestellungen = new ArrayList<>();
+
+        for (Fragestellung frage: getFragestellungenMitParametern(handleAufgabe, physikaufgabenSetup)
+        ) {
+            returnFragestellungen.add(frage.toString());
+        }
+
+        return returnFragestellungen;
+
+    }
+
+
+    public static String getAufgabenstellungAlsString(String handleAufgabe, ArangoDBSetup physikaufgabenSetup){
+
+        Aufgabenstellung aufgabenstellung = getAufgabenstellungMitParametern(handleAufgabe, physikaufgabenSetup);
+        return aufgabenstellung.toString();
     }
 }

@@ -1,9 +1,9 @@
-import databaseArangoDB.ArangoDBSetup;
-import databaseArangoDB.AufgabenArangoDAO;
+import datenbankArangoDB.ArangoDBSetup;
+import datenbankArangoDB.AufgabenArangoDAO;
 import fachlogikPhysikaufgaben.AufgabenParameter;
 import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.Fragestellung;
-import fachlogikPhysikaufgaben.PhysikAufgabe;
+import fachlogikPhysikaufgaben.Physikaufgabe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +12,9 @@ import java.util.List;
 
 public class ExampleData {
 
-    static List<PhysikAufgabe> erstelleTestdaten(){
+    static List<Physikaufgabe> erstelleTestdaten(){
 
-        List<PhysikAufgabe> aufgabenList = new ArrayList<>();
+        List<Physikaufgabe> aufgabenList = new ArrayList<>();
 
         //Aufgabe 1 B8 4
 
@@ -24,7 +24,7 @@ public class ExampleData {
                 new AufgabenParameter("","Schwingungen","Schwingungen", "Schwingungen", 50, 150, true)
         );
 
-        PhysikAufgabe aufgabe1 = new PhysikAufgabe(
+        Physikaufgabe aufgabe1 = new Physikaufgabe(
                 new Aufgabenstellung(
                         "A1",
                         "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.",
@@ -52,7 +52,7 @@ public class ExampleData {
                 new AufgabenParameter("D_1", "Federkonsante","D", "$\\frac{N}{m}$", 20, 60, true)
         );
 
-        PhysikAufgabe aufgabe2 = new PhysikAufgabe(
+        Physikaufgabe aufgabe2 = new Physikaufgabe(
                 new Aufgabenstellung(
                         "A2",
                         "Ein Körper der Masse {0} hängt an einer Feder mit der Federkonstante {1} und schwingt.",
@@ -92,7 +92,7 @@ public class ExampleData {
                 new AufgabenParameter("v_1", "Geschwindigkeit", "v", "$\\frac{m}{s}$", 2,10,true)
         );
 
-        PhysikAufgabe aufgabe3 = new PhysikAufgabe(
+        Physikaufgabe aufgabe3 = new Physikaufgabe(
                 new Aufgabenstellung(
                         "A3",
                         "Ein Ball mit der Masse {0} wird von einem Turm aus {1} Höhe senkrecht nach oben mit einer Anfangsgeschwindigkeit von {2} geworfen.",
@@ -126,7 +126,7 @@ public class ExampleData {
                 new AufgabenParameter("g", "Erdbeschleunigung", "g", "$\\frac{m}{s^2}$", 9.81F, true)
         );
 
-        PhysikAufgabe aufgabe4 = new PhysikAufgabe(
+        Physikaufgabe aufgabe4 = new Physikaufgabe(
                 new Aufgabenstellung(
                         "A4",
                         "Auf einem schrägen Förderband wird ein Gut mit einer Geschwindigkeit $v_F=$ {0} transportiert." +
@@ -167,7 +167,7 @@ public class ExampleData {
 
 
 
-        for (PhysikAufgabe aufgabe: aufgabenList
+        for (Physikaufgabe aufgabe: aufgabenList
              ) {
 
             AufgabenArangoDAO.createAufgabe(aufgabe);

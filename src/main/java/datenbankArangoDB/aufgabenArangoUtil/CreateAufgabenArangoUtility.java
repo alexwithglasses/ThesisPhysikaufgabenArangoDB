@@ -1,4 +1,4 @@
-package databaseArangoDB.aufgabenArangoUtil;
+package datenbankArangoDB.aufgabenArangoUtil;
 
 import com.arangodb.ArangoCollection;
 import com.arangodb.ArangoEdgeCollection;

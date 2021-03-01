@@ -1,7 +1,7 @@
 import fachlogikPhysikaufgaben.AufgabenParameter;
 import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.Fragestellung;
-import fachlogikPhysikaufgaben.PhysikAufgabe;
+import fachlogikPhysikaufgaben.Physikaufgabe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import outputLatex.AufgabeNachTeXDatei;
@@ -16,7 +16,7 @@ import static org.hamcrest.core.StringContains.containsString;
 
 public class LatexOutTest {
 
-    private PhysikAufgabe aufgabe2;
+    private Physikaufgabe aufgabe2;
 
     @BeforeEach
     void init() {
@@ -25,7 +25,7 @@ public class LatexOutTest {
                 new AufgabenParameter("D_1", "Federkonsante","D", "$\\frac{N}{m}$", 20, 60, true)
         );
 
-        aufgabe2 = new PhysikAufgabe(
+        aufgabe2 = new Physikaufgabe(
                 new Aufgabenstellung(
                         "A2",
                         "Ein Körper der Masse {0} hängt an einer Feder mit der Federkonstante {1} und schwingt.",

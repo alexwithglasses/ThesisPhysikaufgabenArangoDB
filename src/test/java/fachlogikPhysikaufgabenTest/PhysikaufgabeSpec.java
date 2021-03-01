@@ -3,7 +3,7 @@ package fachlogikPhysikaufgabenTest;
 import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.AufgabenParameter;
 import fachlogikPhysikaufgaben.Fragestellung;
-import fachlogikPhysikaufgaben.PhysikAufgabe;
+import fachlogikPhysikaufgaben.Physikaufgabe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class PhysikaufgabeSpec {
     private Aufgabenstellung aufgabenstellungAufgabe1;
     private Fragestellung frageA;
     private Fragestellung frageB;
-    private PhysikAufgabe aufgabe1;
+    private Physikaufgabe aufgabe1;
 
     @BeforeEach
     void init(){
@@ -34,7 +34,7 @@ public class PhysikaufgabeSpec {
         frageB = new Fragestellung("b) Bestimmen Sie die Federkonstane {0} der Schwingung.", new AufgabenParameter("D1", "N/m"));
 
 
-        aufgabe1 = new PhysikAufgabe(aufgabenstellungAufgabe1, frageA, frageB);
+        aufgabe1 = new Physikaufgabe(aufgabenstellungAufgabe1, frageA, frageB);
 
         System.out.println(aufgabe1.toString());
     }
