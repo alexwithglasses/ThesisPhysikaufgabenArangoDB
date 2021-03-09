@@ -50,7 +50,7 @@ public class PhysikaufgabeSpec {
         assertThat(parameterAufgabe1.get(2).getZahlenwert()).isBetween(60.0F, 120.0F);
     }
 
-    @DisplayName("kann beim Erstellen eine Aufgabenstellung mit veränderlichen Parametern und eine Fragestellung enthalten.")
+    @DisplayName("kann beim Erstellen eine Aufgabenstellung mit veränderlichen Parametern und mehrere Fragestellungen mit Parametern enthalten.")
     @Test
     void aufgabeKannMitParametrisierterAufgabenstellungUndFragestellungErstelltWerden(){
 

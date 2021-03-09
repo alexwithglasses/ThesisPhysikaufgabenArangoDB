@@ -9,6 +9,7 @@ import fachlogikPhysikaufgaben.Fragestellung;
 import fachlogikPhysikaufgaben.Physikaufgabe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -18,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-
 
 public class AufgabenArangoDAOSpec {
 
@@ -59,6 +59,8 @@ public class AufgabenArangoDAOSpec {
 
     }
 
+
+    @DisplayName("Eine Aufgabe kann anhand ihrer ID gelesen werden.")
     @Test
     void lesenEinerPhysikaufgabeAnhandDerAufgabenstellungID(){
 
@@ -71,6 +73,7 @@ public class AufgabenArangoDAOSpec {
     }
 
 
+    @DisplayName("Eine Aufgabenstellung wird in der Datenbank als Dokument erstellt und wird anhand ihrer ID gefunden.")
     @Test
     void aufgabenstellungDocumentWirdInCollectionAufgabenstellungGeladen(){
 
@@ -87,8 +90,10 @@ public class AufgabenArangoDAOSpec {
         assertThat(query.asListRemaining()).contains("A1");
     }
 
+
+    @DisplayName("Ein Parameter wird als Dokument erstellt und kann anhand der ID gelesen werden.")
     @Test
-    void einheitDocumentWirdInCollectionAufgabenstellungGeladen(){
+    void parameterDocumentWirdInCollectionParameterGeladen(){
 
 
         physikaufgabenSetup.verbinden();
@@ -102,6 +107,8 @@ public class AufgabenArangoDAOSpec {
         physikaufgabenSetup.schließen();
     }
 
+
+    @DisplayName("Die Attribute einer Kante können ausgelesen werden.")
     @Test
     void attributeEinerKanteWerdenAusgelesen(){
 

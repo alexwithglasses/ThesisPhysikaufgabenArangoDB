@@ -15,7 +15,7 @@ public class AufgabenParameterSpec {
     @DisplayName("kann mit einem gegebenen Wert erstellt werden.")
     @Test
     void erstellenEinesParametersMitGegebenemWert(){
-        AufgabenParameter masse1 = new AufgabenParameter("m1", "g", 100);
+        AufgabenParameter masse1 = new AufgabenParameter("m1", "Masse", "m" , "g", 100, true);
         assertThat(masse1.toString()).isEqualTo(String.format("%.2f", 100.0) + "g");
     }
 

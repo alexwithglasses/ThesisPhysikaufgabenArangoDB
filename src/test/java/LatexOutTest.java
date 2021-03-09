@@ -3,6 +3,7 @@ import fachlogikPhysikaufgaben.Aufgabenstellung;
 import fachlogikPhysikaufgaben.Fragestellung;
 import fachlogikPhysikaufgaben.Physikaufgabe;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import outputLatex.AufgabeNachTeXDatei;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
 
+@DisplayName("Eine Aufgabe ")
 public class LatexOutTest {
 
     private Physikaufgabe aufgabe2;
@@ -56,6 +58,7 @@ public class LatexOutTest {
         );
     }
 
+    @DisplayName("wird in einer neu erstellten TeX Datei im Ordner latexoutput gespeichert.")
     @Test
     void latexFileWirdErstellt(){
 
