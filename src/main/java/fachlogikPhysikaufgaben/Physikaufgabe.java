@@ -21,26 +21,26 @@ public class Physikaufgabe {
     @Override
     public String toString(){
 
-        StringBuilder aufgabenstellungFragestellungString = new StringBuilder();
+        StringBuilder aufgabeString = new StringBuilder();
 
-        aufgabenstellungFragestellungString.append(
+        aufgabeString.append(
                 "\\section*{"
                         + aufgabenstellung.getId()
                         + " "
                         + aufgabenstellung.getFachbereich()
                 + "}");
 
-        aufgabenstellungFragestellungString.append(System.lineSeparator());
-        aufgabenstellungFragestellungString.append(aufgabenstellung.toString()+"\\\\");
-        aufgabenstellungFragestellungString.append(System.lineSeparator());
+        aufgabeString.append(System.lineSeparator());
+        aufgabeString.append(aufgabenstellung.toString()+"\\\\");
+        aufgabeString.append(System.lineSeparator());
 
         for (Fragestellung fragestellung: fragestellungList
              ) {
-            aufgabenstellungFragestellungString.append(fragestellung.toString() +"\\\\");
-            aufgabenstellungFragestellungString.append(System.lineSeparator());
+            aufgabeString.append(fragestellung.toString() +"\\\\");
+            aufgabeString.append(System.lineSeparator());
         }
 
-        return aufgabenstellungFragestellungString.toString();
+        return aufgabeString.toString();
 
     }
 
