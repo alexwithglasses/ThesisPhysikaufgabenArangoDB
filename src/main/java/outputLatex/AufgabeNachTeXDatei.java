@@ -2,7 +2,6 @@ package outputLatex;
 
 import java.io.IOException;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +11,6 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 
 public class AufgabeNachTeXDatei {
@@ -23,13 +21,15 @@ public class AufgabeNachTeXDatei {
 
             Path path = Paths.get("./latexoutput/Aufgabe" + timeStamp + ".tex");
 
-            String fileHead = "\\documentclass{article}\n" +
-                    "\n" +
-                    "\\usepackage{amsmath}\n" +
-                    "\\usepackage[ngerman]{babel}\n" +
-                    "\\usepackage[utf8]{inputenc}\n" +
-                    "\n" +
-                    "\\begin{document}" + System.lineSeparator();
+            String ls = System.lineSeparator();
+
+            String fileHead = "\\documentclass{article}"+ ls +
+                    ls +
+                    "\\usepackage{amsmath}" + ls +
+                    "\\usepackage[ngerman]{babel}"+ ls +
+                    "\\usepackage[utf8]{inputenc}" + ls +
+                    ls +
+                    "\\begin{document}" + ls;
 
             String fileFoot = "\\end{document}";
 
@@ -37,27 +37,14 @@ public class AufgabeNachTeXDatei {
             writeToTex.addLast(fileFoot);
 
             try {
-               /*
-                Files.write(path,
-                        fileHead.getBytes(StandardCharsets.UTF_8),
-                        StandardOpenOption.CREATE
-                );
-
-                */
-
-                for (String aufgabe: writeToTex
+                for (String line: writeToTex
                      ) {
-                    Files.write(path, aufgabe.getBytes(StandardCharsets.UTF_8),StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                    Files.writeString(path, line, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                 }
-
-                //Files.write(path,fileFoot.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
-
-
             } catch (IOException x) {
                 return path.toString();
             }
             return path.toString();
         }
-
 }
 
