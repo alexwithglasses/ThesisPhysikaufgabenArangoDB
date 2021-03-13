@@ -28,7 +28,7 @@ public class Main {
 
 
 
-       ExampleData.loescheTestdaten();
+        ExampleData.loescheTestdaten();
 
     }
 }

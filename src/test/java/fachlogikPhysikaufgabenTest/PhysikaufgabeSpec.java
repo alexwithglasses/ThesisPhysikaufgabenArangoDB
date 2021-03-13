@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,13 +31,11 @@ public class PhysikaufgabeSpec {
 
         aufgabenstellungAufgabe1 = new Aufgabenstellung("A1", "Ein Federpendel mit der Masse {0} führt in {1} {2} aus.", parameterAufgabe1, "Mechanik");
 
-        frageA = new Fragestellung("a) Bestimmen Sie die Frequenz {0} der Schwingung.", new AufgabenParameter("f1", "Hz" ));
-        frageB = new Fragestellung("b) Bestimmen Sie die Federkonstane {0} der Schwingung.", new AufgabenParameter("D1", "N/m"));
+        frageA = new Fragestellung("A1a","a) Bestimmen Sie die Frequenz {0} der Schwingung.", Collections.singletonList(new AufgabenParameter("f1", "Hz" )), "Mechanik");
+        frageB = new Fragestellung("A1b","b) Bestimmen Sie die Federkonstane {0} der Schwingung.", Collections.singletonList(new AufgabenParameter("D1", "N/m")), "Mechanik");
 
 
         aufgabe1 = new Physikaufgabe(aufgabenstellungAufgabe1, frageA, frageB);
-
-        System.out.println(aufgabe1.toString());
     }
 
 

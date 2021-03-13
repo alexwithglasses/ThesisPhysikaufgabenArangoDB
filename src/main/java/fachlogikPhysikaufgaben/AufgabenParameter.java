@@ -43,9 +43,9 @@ public class AufgabenParameter {
     public void generiereZahlenwert(){
         Random r = new Random();
         if(ganzeZahl){
-            zahlenwert = r.nextInt((int) (untereSchrankeZahlenwert +1)) + untereSchrankeZahlenwert;
+            zahlenwert = r.ints(1,(int) untereSchrankeZahlenwert, (int)obereSchrankeZahlenwert+1).findFirst().getAsInt();
         }else {
-            zahlenwert = untereSchrankeZahlenwert + r.nextFloat() * (obereSchrankeZahlenwert - untereSchrankeZahlenwert);
+            zahlenwert =(float) r.doubles(1, untereSchrankeZahlenwert, obereSchrankeZahlenwert+1).findFirst().getAsDouble();
         }
     }
 
