@@ -20,23 +20,23 @@ public class AufgabenArangoDAO extends ArangoDBSetup {
 
         arangoDBInstanz.verbinden();
 
-        String idAufgabenstellung = erstelleKnotenAufgabenstellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[0]), aufgabe.getAufgabenstellung() );
+        String idAufgabenstellung = erstelleKnotenAufgabenstellung(databaseHandler.collection(KNOTEN_COLLECTIONS[0]), aufgabe.getAufgabenstellung() );
 
         for (AufgabenParameter parameter: aufgabe.getAufgabenstellung().getGegebeneParameterList()
         ) {
-            String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
-            erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[1]), idAufgabenstellung, idParameter, parameter);
+            String idParameter = erstelleKnotenParameter(databaseHandler.collection(KNOTEN_COLLECTIONS[1]), parameter);
+            erstelleKanteParameter(graphHandler.edgeCollection(KANTEN_COLLECTIONS[1]), idAufgabenstellung, idParameter, parameter);
         }
 
         for (Fragestellung frage : aufgabe.getFragestellungList()
         ) {
-            String idFragestellung = erstelleKnotenFragestellung(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[2]), frage);
-            erstelleKanteFragestellung(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[2]),idAufgabenstellung, idFragestellung);
+            String idFragestellung = erstelleKnotenFragestellung(databaseHandler.collection(KNOTEN_COLLECTIONS[2]), frage);
+            erstelleKanteFragestellung(graphHandler.edgeCollection(KANTEN_COLLECTIONS[2]),idAufgabenstellung, idFragestellung);
 
             for (AufgabenParameter parameter: frage.getGesuchteParameterList()
             ) {
-                String idParameter = erstelleKnotenParameter(arangoDBInstanz.getDatabaseHandler().collection(KNOTEN_COLLECTIONS[1]), parameter);
-                erstelleKanteParameter(arangoDBInstanz.getGraph().edgeCollection(KANTEN_COLLECTIONS[0]), idFragestellung, idParameter, parameter);
+                String idParameter = erstelleKnotenParameter(databaseHandler.collection(KNOTEN_COLLECTIONS[1]), parameter);
+                erstelleKanteParameter(graphHandler.edgeCollection(KANTEN_COLLECTIONS[0]), idFragestellung, idParameter, parameter);
             }
         }
 

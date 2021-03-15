@@ -30,7 +30,7 @@ public class AufgabenArangoDAOSpec {
 
         physikaufgabenSetup = new ArangoDBSetup();
 
-        physikaufgabenSetup.setupCollectionsAndGraph();
+        physikaufgabenSetup.setupArangoDBInstance();
 
         List<AufgabenParameter> parameterAufgabe1List = Arrays.asList(
                 new AufgabenParameter("m1","Masse","m", "g", 50.0F, 150.0F, true),

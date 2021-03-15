@@ -6,7 +6,6 @@ import com.arangodb.ArangoGraph;
 
 import com.arangodb.entity.EdgeDefinition;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,15 +18,11 @@ public class ArangoDBSetup {
     public static final String[] KNOTEN_COLLECTIONS = {"Aufgabenstellungen", "Parameter", "Fragestellungen"};
     public static final String[] KANTEN_COLLECTIONS = {"GesuchteParameter", "GegebeneParameter", "HatFragestellung"};
 
-    private ArangoDB arangoDBInstanz;
-    private ArangoDatabase databaseHandler;
-    private ArangoGraph graphHandler;
-
-    public ArangoDBSetup(){
-    }
+    public static ArangoDB arangoDBInstanz;
+    public static ArangoDatabase databaseHandler;
+    public static ArangoGraph graphHandler;
 
     public void verbinden(){
-
         arangoDBInstanz = new ArangoDB.Builder()
                 .user(ARANGO_USER)
                 .password(ARANGO_PASSWORD)
@@ -36,15 +31,13 @@ public class ArangoDBSetup {
         databaseHandler = arangoDBInstanz.db(DB_NAME);
 
         graphHandler = databaseHandler.graph(GRAPH_NAME);
-
     }
 
     public void schließen(){
         arangoDBInstanz.shutdown();
     }
 
-    public void setupCollectionsAndGraph(){
-
+    public void setupArangoDBInstance(){
         verbinden();
 
         setupDatabaseAndCollectionsIfNeeded();
@@ -73,11 +66,11 @@ public class ArangoDBSetup {
 
     private  void createGraph(){
         Collection<EdgeDefinition> kantenDefinition = new ArrayList<>();
-        EdgeDefinition kantenGesuchterParamter = new EdgeDefinition().collection(KANTEN_COLLECTIONS[0]).from(KNOTEN_COLLECTIONS[2]).to(KNOTEN_COLLECTIONS[1]);
+        EdgeDefinition kantenGesuchterParameter = new EdgeDefinition().collection(KANTEN_COLLECTIONS[0]).from(KNOTEN_COLLECTIONS[2]).to(KNOTEN_COLLECTIONS[1]);
         EdgeDefinition kantenGegebeneParameter = new EdgeDefinition().collection(KANTEN_COLLECTIONS[1]).from(KNOTEN_COLLECTIONS[0]).to(KNOTEN_COLLECTIONS[1]);
         EdgeDefinition kantenHatFragestellung = new EdgeDefinition().collection(KANTEN_COLLECTIONS[2]).from(KNOTEN_COLLECTIONS[0]).to(KNOTEN_COLLECTIONS[2]);
 
-        kantenDefinition.add(kantenGesuchterParamter);
+        kantenDefinition.add(kantenGesuchterParameter);
         kantenDefinition.add(kantenGegebeneParameter);
         kantenDefinition.add(kantenHatFragestellung);
 

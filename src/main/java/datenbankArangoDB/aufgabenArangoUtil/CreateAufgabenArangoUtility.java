@@ -107,10 +107,10 @@ public class CreateAufgabenArangoUtility {
     }
 
 
-    public static String ersetzeUmlaute(String orig) {
+    public static String ersetzeUmlaute(String original) {
         String[][] UMLAUT_REPLACEMENTS = { { new String("Ä"), "\u00c4" }, { new String("Ü"), "\u00dc" }, { new String("Ö"), "\u00d6" }, { new String("ä"), "\u00e4" }, { new String("ü"), "\u00fc" }, { new String("ö"), "\u00f6" }, { new String("ß"), "\u00df" } };
 
-        String result = orig;
+        String result = original;
 
         for (int i = 0; i < UMLAUT_REPLACEMENTS.length; i++) {
             result = result.replace(UMLAUT_REPLACEMENTS[i][0], UMLAUT_REPLACEMENTS[i][1]);

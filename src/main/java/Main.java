@@ -12,7 +12,7 @@ public class Main {
 
         ArangoDBSetup arangoDBSetup = new ArangoDBSetup();
 
-        arangoDBSetup.setupCollectionsAndGraph();
+        arangoDBSetup.setupArangoDBInstance();
 
         List<Physikaufgabe> aufgabenErstellt = ExampleData.erstelleTestdaten();
 
