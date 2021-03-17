@@ -36,8 +36,8 @@ public class ReadAufgabenArangoUtility {
                     (String) gegebenerParameter.getAttribute("bezeichnung"),
                     (String) gegebenerParameter.getAttribute("bezeichnungParameter"),
                     (String) gegebenerParameter.getAttribute("einheit"),
-                    new Float((Double) gegebenerParameter.getAttribute("untereSchrankeWertebereich")),
-                    new Float((Double) gegebenerParameter.getAttribute("obereSchrankeWertebereich")),
+                    (Double) gegebenerParameter.getAttribute("untereSchrankeWertebereich"),
+                    (Double) gegebenerParameter.getAttribute("obereSchrankeWertebereich"),
                     (boolean) gegebenerParameter.getAttribute("ganzeZahl")
             );
 

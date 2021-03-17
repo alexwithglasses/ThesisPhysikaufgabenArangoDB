@@ -8,9 +8,9 @@ public class AufgabenParameter {
     private String bezeichnung;
     private String formelsymbol;
     private String einheit;
-    private float zahlenwert;
-    private float untereSchrankeZahlenwert;
-    private float obereSchrankeZahlenwert;
+    private double zahlenwert;
+    private double untereSchrankeZahlenwert;
+    private double obereSchrankeZahlenwert;
     private boolean ganzeZahl;
 
 
@@ -19,7 +19,7 @@ public class AufgabenParameter {
         this.einheit = einheit;
     }
 
-    public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, float zahlenwert, boolean ganzeZahl){
+    public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, double zahlenwert, boolean ganzeZahl){
         this.formelsymbol = formelsymbol;
         this.bezeichnung = bezeichnung;
         this.bezeichner = bezeichner;
@@ -28,7 +28,7 @@ public class AufgabenParameter {
         this.ganzeZahl = ganzeZahl;
     }
 
-    public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, float untereSchrankeZahlenwert, float obereSchrankeZahlenwert, boolean ganzeZahl){
+    public AufgabenParameter(String formelsymbol, String bezeichnung, String bezeichner, String einheit, double untereSchrankeZahlenwert, double obereSchrankeZahlenwert, boolean ganzeZahl){
         this.formelsymbol = formelsymbol;
         this.bezeichnung = bezeichnung;
         this.bezeichner = bezeichner;
@@ -45,7 +45,7 @@ public class AufgabenParameter {
         if(ganzeZahl){
             zahlenwert = r.ints(1,(int) untereSchrankeZahlenwert, (int)obereSchrankeZahlenwert+1).findFirst().getAsInt();
         }else {
-            zahlenwert =(float) r.doubles(1, untereSchrankeZahlenwert, obereSchrankeZahlenwert+1).findFirst().getAsDouble();
+            zahlenwert = r.doubles(1, untereSchrankeZahlenwert, obereSchrankeZahlenwert+1).findFirst().getAsDouble();
         }
     }
 
@@ -102,15 +102,15 @@ public class AufgabenParameter {
         this.obereSchrankeZahlenwert = obereSchrankeZahlenwert;
     }
 
-    public float getZahlenwert() {
+    public double getZahlenwert() {
         return zahlenwert;
     }
 
-    public float getUntereSchrankeZahlenwert() {
+    public double getUntereSchrankeZahlenwert() {
         return untereSchrankeZahlenwert;
     }
 
-    public float getObereSchrankeZahlenwert() {
+    public double getObereSchrankeZahlenwert() {
         return obereSchrankeZahlenwert;
     }
 
