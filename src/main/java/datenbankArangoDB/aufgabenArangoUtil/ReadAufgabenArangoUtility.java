@@ -75,7 +75,7 @@ public class ReadAufgabenArangoUtility {
             Map<String, Object> queryParameterFrageCollection = new MapBuilder().put("frage", frageDoc.getId() ).get();
 
             ArangoCursor<BaseDocument> queryParameter = physikaufgabenSetup.getDatabaseHandler().query(
-                    "FOR v,e IN 1..2 OUTBOUND @frage GesuchteParameter RETURN e",
+                    "FOR v,e IN 1..1 OUTBOUND @frage GesuchteParameter RETURN e",
                     queryParameterFrageCollection, null, BaseDocument.class
             );
 
