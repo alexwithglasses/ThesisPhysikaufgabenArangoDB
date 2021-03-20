@@ -68,14 +68,14 @@ public class ExampleData {
 
                 new Fragestellung(
                         "A2b",
-                        "b) Bestimmen Sie seine Schwingfrequenz {0}",
+                        "b) Bestimmen Sie seine Schwingfrequenz {0}.",
                         Collections.singletonList(new AufgabenParameter("f1", "Frequenz", "f", "Hz", 0,0,true)),
                         "Mechanik"
                 ),
 
                 new Fragestellung(
                         "A2c",
-                        "c) Bestimmen Sie die dazugehörige Schwingdauer {0}",
+                        "c) Bestimmen Sie die dazugehörige Schwingdauer {0}.",
                         Collections.singletonList(new AufgabenParameter("T1", "Periodendauer", "T", "s", 0,0,true)),
                         "Mechanik"
                 )
@@ -163,9 +163,59 @@ public class ExampleData {
 
         aufgabenList.add(aufgabe4);
 
+    //Aufgabe C1_3
+        List<AufgabenParameter> parameterAufgabe5List = Arrays.asList(
+                new AufgabenParameter("Q_{ges}","Ladung","Q", "$\\mu C$", 20, 100, true),
+                new AufgabenParameter("r", "Länge","l", "m", 0.5, 2, false),
+                new AufgabenParameter("F_C", "Coulomb Kraft", "F_C", "N", 5,15, true)
+        );
+
+        Physikaufgabe aufgabe5 = new Physikaufgabe(
+                new Aufgabenstellung(
+                        "A5",
+                        "Zwei kleine nichtleitende Kugeln tragen zusammen eine Gesamtladung von {0}." +
+                                "Wenn ihr Abstand voneinander {1} beträgt, üben sie eine abstoßende Kraft von jeweils {2} aufeinander aus.",
+                        parameterAufgabe5List,
+                        "Elektrizit\u00e4tslehre"
+                ),
+                new Fragestellung(
+                        "A5a",
+                        "Wie groß sind die beiden einzelnen Ladungen {0} und {1}?",
+                        Arrays.asList(new AufgabenParameter("$Q_1$", "Ladung", "Q","$C$", 0,0, false),
+                                new AufgabenParameter("$Q_2$", "Ladung", "Q","$C$", 0,0, false)),
+                        "Elektrizit\u00e4tslehre"
+                )
+        );
+
+        aufgabenList.add(aufgabe5);
 
 
+        //Aufgabe C6_1
+        List<AufgabenParameter> parameterAufgabe6List = Arrays.asList(
+                new AufgabenParameter("B","Magnetische Flussdichte","B", "$T$", 0.1, 1, false),
+                new AufgabenParameter("l_{Abstand}", "Länge","l", "m", 0.1, 2, false),
+                new AufgabenParameter("l_{Drähte}", "Länge", "l", "m", 1,15, true),
+                new AufgabenParameter("f", "Frequenz", "f", "Hz", 5 , 100, true)
+        );
 
+        Physikaufgabe aufgabe6 = new Physikaufgabe(
+                new Aufgabenstellung(
+                        "A6",
+                        "Gegeben sei ein U-förmig gebogener Leiterdraht, dessen Innenfläche senkrecht von einem magnetischen Feld der Flussichte {0}" +
+                                "durchsetzt wird. Der Abstand der parallelen Drähte beträgt {1} und die Länge der parellelen Drähte {2}. " +
+                                "Das magnetische Feld wird sinusförmig mit einer Frequenz von {3} geändert.",
+                        parameterAufgabe6List,
+                        "Elektrizit\u00e4tslehre"
+                ),
+                new Fragestellung(
+                        "A6a",
+                        "Wie groß ist die induzierte Spannung {0}?",
+                        Arrays.asList(new AufgabenParameter("$U$", "Spannung", "U","$V$", 0,0, false)),
+                        "Elektrizit\u00e4tslehre"
+                )
+        );
+
+        aufgabenList.add(aufgabe6);
 
         for (Physikaufgabe aufgabe: aufgabenList
              ) {
